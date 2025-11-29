@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🩸 Calculadora Perfusionista PRO</title>
+    <title>🩸 Calculadora Perfusionista PRO v9.0</title>
     <style>
         * {
             margin: 0;
@@ -402,6 +402,7 @@
 
         <div class="tabs-container">
             <button class="tab-btn active" onclick="showTab('hemodiluicao')">💧 Hemodiluição</button>
+            <button class="tab-btn" onclick="showTab('fluxos')">🌡️ Fluxos</button>
             <button class="tab-btn" onclick="showTab('furosemida')">💊 Furosemida</button>
             <button class="tab-btn" onclick="showTab('manitol')">🧪 Manitol</button>
             <button class="tab-btn" onclick="showTab('eletrolitos')">⚡ Eletrolitos</button>
@@ -474,6 +475,69 @@
                                 </div>
                             </div>
                             <div id="statusHemo" class="status-badge"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FLUXOS / SC -->
+            <div id="fluxos" class="section">
+                <div class="info-box">
+                    🌡️ Cálculo de Superfície Corpórea (SC) pela fórmula de Du Bois e fluxos de CEC (L/min)
+                </div>
+                <div class="section-grid">
+                    <div class="card">
+                        <div class="card-title">🧍 Dados para SC</div>
+                        <div class="input-group">
+                            <label>Peso (kg)</label>
+                            <input type="number" id="pesoFluxo" placeholder="70" step="0.1">
+                        </div>
+                        <div class="input-group">
+                            <label>Altura (cm)</label>
+                            <input type="number" id="alturaFluxo" placeholder="170" step="0.1">
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="calcularFluxos()">Calcular</button>
+                            <button class="btn btn-secondary" onclick="limparFluxos()">Limpar</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">🌡️ Resultados SC & Fluxos</div>
+                        <div class="results-container">
+                            <div class="result-box">
+                                <div class="result-item">
+                                    <span class="result-label">Superfície Corpórea</span>
+                                    <span class="result-value" id="scResult">--</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Fluxo Mínimo</span>
+                                    <span class="result-value" id="fluxoMin">--</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Fluxo Médio</span>
+                                    <span class="result-value" id="fluxoMed">--</span>
+                                </div>
+                                <div class="result-item highlight">
+                                    <span class="result-label">Fluxo Máximo</span>
+                                    <span class="result-value" id="fluxoMax">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <div class="card-title">📋 Informações</div>
+                    <div class="results-container">
+                        <div class="result-box">
+                            <div style="padding: 15px; background: rgba(20,184,166,0.1); border-radius: 8px; color: var(--text-secondary); font-size: 0.9em; line-height: 1.8;">
+                                <strong>📐 Fórmula Du Bois:</strong><br>
+                                SC = 0.007184 × Altura^0.725 × Peso^0.425<br><br>
+                                <strong>💧 Fluxos CEC:</strong><br>
+                                • Mínimo: 2.2 L/min por m²<br>
+                                • Médio: 2.4 L/min por m²<br>
+                                • Máximo: 2.6 L/min por m²
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -660,7 +724,7 @@
                     📐 Parâmetros de Perfusão durante CEC
                 </div>
                 <div class="info-box">
-                    🫁 Avaliação Completa de Perfusão: Lactato, pH, pCO2, BE, Hb, SaO2, SvO2, PvCO2 e cálculos derivados
+                    🫁 Avaliação Completa de Perfusão: Lactato, pH, pCO2, Hb, SaO2, SvO2, PvCO2 e cálculos derivados
                 </div>
 
                 <div class="section-grid">
@@ -1020,7 +1084,7 @@
         </div>
 
         <div class="footer">
-            <p>🩸 Calculadora Perfusionista PRO v8.0 | Desenvolvido com ❤️ para perfusionistas</p>
+            <p>🩸 Calculadora Perfusionista PRO v9.0 | Desenvolvido com ❤️ para perfusionistas</p>
             <p style="margin-top: 10px; font-size: 0.85em; opacity: 0.7;">⚠️ Ferramenta auxiliar. Sempre confirme com cirurgião e siga protocolos institucionais.</p>
         </div>
     </div>
@@ -1074,6 +1138,35 @@
                 statusEl.innerHTML = '⚠️ ATENÇÃO (>20 mL/kg)';
                 statusEl.className = 'status-badge warning';
             }
+        }
+
+        function calcularFluxos() {
+            const peso = parseFloat(document.getElementById('pesoFluxo').value) || 0;
+            const altura = parseFloat(document.getElementById('alturaFluxo').value) || 0;
+
+            if (peso <= 0 || altura <= 0) {
+                alert('Preencha peso e altura');
+                return;
+            }
+
+            const sc = 0.007184 * Math.pow(altura, 0.725) * Math.pow(peso, 0.425);
+            const fluxoMin = 2.2 * sc;
+            const fluxoMed = 2.4 * sc;
+            const fluxoMax = 2.6 * sc;
+
+            document.getElementById('scResult').textContent = sc.toFixed(2) + ' m²';
+            document.getElementById('fluxoMin').textContent = fluxoMin.toFixed(2) + ' L/min';
+            document.getElementById('fluxoMed').textContent = fluxoMed.toFixed(2) + ' L/min';
+            document.getElementById('fluxoMax').textContent = fluxoMax.toFixed(2) + ' L/min';
+        }
+
+        function limparFluxos() {
+            document.getElementById('pesoFluxo').value = '';
+            document.getElementById('alturaFluxo').value = '';
+            document.getElementById('scResult').textContent = '--';
+            document.getElementById('fluxoMin').textContent = '--';
+            document.getElementById('fluxoMed').textContent = '--';
+            document.getElementById('fluxoMax').textContent = '--';
         }
 
         function calcularFurosemida() {
@@ -1138,7 +1231,6 @@
         }
 
         function calcularGasometria() {
-            const peso = parseFloat(document.getElementById('pesoGaso').value) || 0;
             const pH = parseFloat(document.getElementById('pH').value) || 7.4;
             const paCO2 = parseFloat(document.getElementById('paCO2').value) || 40;
             const hemoglobina = parseFloat(document.getElementById('hemoglobina').value) || 12;
@@ -1310,11 +1402,6 @@
             document.querySelectorAll('#hemodiluicao .result-value').forEach(el => el.textContent = '--');
             document.getElementById('statusHemo').innerHTML = '';
         }
-
-        // Inicializar
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('App inicializado');
-        });
     </script>
 </body>
 </html>
