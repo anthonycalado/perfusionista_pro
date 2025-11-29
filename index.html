@@ -305,12 +305,6 @@
             border: 1px solid var(--danger);
         }
 
-        .status-badge.info {
-            background: rgba(59, 130, 246, 0.2);
-            color: #3b82f6;
-            border: 1px solid #3b82f6;
-        }
-
         .footer {
             text-align: center;
             margin-top: 60px;
@@ -318,35 +312,6 @@
             color: var(--text-secondary);
             font-size: 0.9em;
             border-top: 1px solid var(--border);
-        }
-
-        .drug-steps {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .drug-step {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid var(--secondary);
-        }
-
-        .drug-step strong {
-            color: var(--secondary);
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .drug-warning {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid var(--danger);
-            color: #fca5a5;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-weight: 600;
         }
 
         .input-row {
@@ -441,6 +406,7 @@
             <button class="tab-btn" onclick="showTab('manitol')">🧪 Manitol</button>
             <button class="tab-btn" onclick="showTab('eletrolitos')">⚡ Eletrolitos</button>
             <button class="tab-btn" onclick="showTab('gasometria')">🫁 Gasometria</button>
+            <button class="tab-btn" onclick="showTab('bicarbonato')">🔹 Bicarbonato</button>
             <button class="tab-btn" onclick="showTab('canulas')">🩺 Cânulas</button>
             <button class="tab-btn" onclick="showTab('drogas')">💉 Drogas</button>
         </div>
@@ -608,7 +574,7 @@
                 </div>
             </div>
 
-            <!-- ELETROLITOS -->
+            <!-- ELETROLITOS (SEM BICARBONATO) -->
             <div id="eletrolitos" class="section">
                 <div class="info-box">
                     ⚡ Correção de Eletrolitos: Insira valores ATUAIS e ALVO desejado
@@ -622,11 +588,10 @@
                         </div>
                         <div class="input-group">
                             <label>Selecione o Eletrólito</label>
-                            <select id="selectEletro" onchange="atualizarEletrolito()">
+                            <select id="selectEletro">
                                 <option value="calcio">Cálcio Gluconato 10%</option>
                                 <option value="potassio">Potássio (KCl)</option>
                                 <option value="magnesio">Magnésio (MgSO4)</option>
-                                <option value="bicarbonato">Bicarbonato Sódio 8.4%</option>
                             </select>
                         </div>
                         <div class="input-row">
@@ -646,7 +611,7 @@
                     <div class="card">
                         <div class="card-title">⚡ Resultado</div>
                         <div class="results-container">
-                            <div id="eletroResult" class="result-box">
+                            <div class="result-box">
                                 <div class="result-item">
                                     <span class="result-label">Eletrólito</span>
                                     <span class="result-value" id="nomeDroga">--</span>
@@ -684,20 +649,15 @@
                                 <span class="result-label">Magnésio</span>
                                 <span class="result-value">1.7-2.2 mg/dL</span>
                             </div>
-                            <div class="result-item">
-                                <span class="result-label">Bicarbonato</span>
-                                <span class="result-value">22-26 mEq/L</span>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- GASOMETRIA - COMPLETA COM TODOS OS PARÂMETROS -->
+            <!-- GASOMETRIA (SEM BICARBONATO) -->
             <div id="gasometria" class="section">
                 <div class="formula-box">
-                    📐 Fórmula Correção HCO3: Dose = -BE × Peso (kg) × 0.3<br>
-                    ⚠️ Dar 50% da dose calculada, reavaliar em 1h
+                    📐 Parâmetros de Perfusão durante CEC
                 </div>
                 <div class="info-box">
                     🫁 Avaliação Completa de Perfusão: Lactato, pH, pCO2, BE, Hb, SaO2, SvO2, PvCO2 e cálculos derivados
@@ -728,10 +688,6 @@
 
                         <div class="input-row-4">
                             <div class="input-group">
-                                <label>Base Excess (mEq/L)</label>
-                                <input type="number" id="baseExcess" placeholder="0" step="0.1">
-                            </div>
-                            <div class="input-group">
                                 <label>Hemoglobina (g/dL)</label>
                                 <input type="number" id="hemoglobina" placeholder="12" step="0.1">
                             </div>
@@ -743,11 +699,10 @@
                                 <label>SvO2 (%)</label>
                                 <input type="number" id="svO2" placeholder="74.9" min="0" max="100" step="0.1">
                             </div>
-                        </div>
-
-                        <div class="input-group">
-                            <label>PvCO2 (mmHg)</label>
-                            <input type="number" id="pvCO2" placeholder="20" step="1">
+                            <div class="input-group">
+                                <label>PvCO2 (mmHg)</label>
+                                <input type="number" id="pvCO2" placeholder="46" step="1">
+                            </div>
                         </div>
 
                         <div class="button-group">
@@ -757,9 +712,8 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-title">🫁 Análise: Perfusão & Correções</div>
-                        <div id="gasoResult" class="analysis-section">
-                            <div class="analysis-title">Avaliação de Perfusão</div>
+                        <div class="card-title">🫁 Análise: Perfusão</div>
+                        <div class="analysis-section">
                             <div class="analysis-item">
                                 <span class="analysis-label">Lactato</span>
                                 <span class="analysis-value" id="statusLactato">--</span>
@@ -784,10 +738,6 @@
                                 <span class="analysis-label">Hemoglobina</span>
                                 <span class="analysis-value" id="statusHb">--</span>
                             </div>
-                            <div class="analysis-item highlight">
-                                <span class="analysis-label">Correção HCO3</span>
-                                <span class="analysis-value" id="correcaoHCO3">-- mL</span>
-                            </div>
                         </div>
                         
                         <div id="statusGaso" class="status-badge"></div>
@@ -795,71 +745,109 @@
                 </div>
 
                 <div class="card" style="margin-top: 30px;">
-                    <div class="card-title">📋 Cálculos Derivados - Explicação</div>
+                    <div class="card-title">📋 Interpretações</div>
                     <div class="results-container">
                         <div class="result-box">
                             <div class="result-item">
-                                <span class="result-label"><strong>ΔAO2</strong> (Diferença Arterio-Venosa)</span>
-                                <span class="result-value">Fórmula: SaO2 - SvO2</span>
-                            </div>
-                            <div style="padding: 10px; background: rgba(20,184,166,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em; color: var(--text-secondary);">
-                                ✓ Mede a diferença de oxigenação entre sangue arterial e venoso<br>
-                                ✓ Normal: &lt;30% | Elevado: &gt;30% = hipoperfusão possível
-                            </div>
-                        </div>
-                    </div>
-                    <div class="results-container" style="margin-top: 20px;">
-                        <div class="result-box">
-                            <div class="result-item">
-                                <span class="result-label"><strong>O2ER</strong> (Taxa de Extração de O2)</span>
-                                <span class="result-value">Fórmula: ((SaO2 - SvO2) / SaO2) × 100</span>
-                            </div>
-                            <div style="padding: 10px; background: rgba(20,184,166,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em; color: var(--text-secondary);">
-                                ✓ Percentual de O2 extraído pelos tecidos<br>
-                                ✓ Normal: 20-30% | Elevado: &gt;35% = hipoperfusão/baixo débito
-                            </div>
-                        </div>
-                    </div>
-                    <div class="results-container" style="margin-top: 20px;">
-                        <div class="result-box">
-                            <div class="result-item">
-                                <span class="result-label"><strong>ΔPvCO2</strong> (Delta CO2 Venoso-Arterial)</span>
-                                <span class="result-value">Fórmula: PvCO2 - PaCO2</span>
-                            </div>
-                            <div style="padding: 10px; background: rgba(20,184,166,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em; color: var(--text-secondary);">
-                                ✓ Avalia perfusão tecidual e produção de CO2<br>
-                                ✓ Normal: &lt;6 mmHg | Elevado: &gt;8 mmHg = hipoperfusão significativa
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" style="margin-top: 30px;">
-                    <div class="card-title">📋 Interpretação Clínica</div>
-                    <div class="results-container">
-                        <div class="result-box">
-                            <div class="result-item">
-                                <span class="result-label">Interpretação ΔAO2</span>
+                                <span class="result-label">ΔAO2</span>
                                 <span class="result-value" id="interpDeltaAO2">--</span>
                             </div>
                             <div class="result-item">
-                                <span class="result-label">Interpretação O2ER</span>
+                                <span class="result-label">O2ER</span>
                                 <span class="result-value" id="interpO2ER">--</span>
                             </div>
                             <div class="result-item">
-                                <span class="result-label">Interpretação ΔPvCO2</span>
+                                <span class="result-label">ΔPvCO2</span>
                                 <span class="result-value" id="interpDeltaPvCO2">--</span>
-                            </div>
-                            <div class="result-item highlight">
-                                <span class="result-label">Status Ácido-Base</span>
-                                <span class="result-value" id="acidBaseStatus">--</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- CÂNULAS - COMPLETA COM ARTERIAL E VENOSA -->
+            <!-- BICARBONATO - NOVA SEÇÃO -->
+            <div id="bicarbonato" class="section">
+                <div class="formula-box">
+                    📐 Fórmula: Dose = -BE × Peso (kg) × 0.3<br>
+                    ⚠️ Administrar 50% da dose, reavaliar em 1h
+                </div>
+                <div class="info-box">
+                    🔹 Correção de Acidose Metabólica com Bicarbonato Sódio 8.4% (84 mg/mL)
+                </div>
+
+                <div class="section-grid">
+                    <div class="card">
+                        <div class="card-title">🔹 Cálculo Bicarbonato</div>
+                        <div class="input-group">
+                            <label>Peso (kg)</label>
+                            <input type="number" id="pesoBicarbonato" placeholder="70" step="0.1">
+                        </div>
+                        <div class="input-group">
+                            <label>Base Excess (mEq/L)</label>
+                            <input type="number" id="baseExcessBicarbonato" placeholder="-5" step="0.1">
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="calcularBicarbonato()">Calcular</button>
+                            <button class="btn btn-secondary" onclick="limparBicarbonato()">Limpar</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">🔹 Resultado da Correção</div>
+                        <div class="results-container">
+                            <div class="result-box">
+                                <div class="result-item">
+                                    <span class="result-label">Peso</span>
+                                    <span class="result-value" id="pesoBicRes">--</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Base Excess</span>
+                                    <span class="result-value" id="beRes">--</span>
+                                </div>
+                                <div class="result-item highlight">
+                                    <span class="result-label">Dose Total Calculada</span>
+                                    <span class="result-value" id="doseTotalBic">-- mL</span>
+                                </div>
+                                <div class="result-item highlight">
+                                    <span class="result-label">💊 DOSE 50% (Usar)</span>
+                                    <span class="result-value" id="dose50Bic">-- mL</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Apresentação</span>
+                                    <span class="result-value">8.4% (84 mg/mL)</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Protocolo</span>
+                                    <span class="result-value">IV lento no reservatório</span>
+                                </div>
+                            </div>
+                            <div id="statusBic" class="status-badge"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <div class="card-title">📋 Informações Importantes</div>
+                    <div class="results-container">
+                        <div class="result-box">
+                            <div style="padding: 15px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; margin-bottom: 15px; color: var(--text-secondary);">
+                                <strong>ℹ️ Como Usar:</strong><br>
+                                1. Inserir peso e Base Excess negativo (acidose)<br>
+                                2. Sistema calcula dose total<br>
+                                3. <strong>Usar apenas 50% da dose</strong><br>
+                                4. Administrar IV lentamente no reservatório<br>
+                                5. Reavaliar gasometria em 1 hora
+                            </div>
+                            <div style="padding: 15px; background: rgba(239, 68, 68, 0.15); border-radius: 8px; color: #fca5a5;">
+                                <strong>⚠️ Aviso:</strong><br>
+                                Bicarbonato é uma base forte - administrar sempre com cuidado. Nunca infundir em veia periférica sem verificação.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CÂNULAS -->
             <div id="canulas" class="section">
                 <div class="info-box">
                     🩺 Recomendação Completa de Cânulas: Arterial e Venosa (VCS/VCI) baseada no peso do paciente
@@ -920,14 +908,6 @@
                                 <div class="result-item highlight">
                                     <span class="result-label">VCI (Veia Cava Inferior)</span>
                                     <span class="result-value" id="canulaVCI">-- F</span>
-                                </div>
-                                <div class="result-item" id="extra1Container" style="display:none;">
-                                    <span class="result-label">Opção Adicional 1</span>
-                                    <span class="result-value" id="canulaExtra1">--</span>
-                                </div>
-                                <div class="result-item" id="extra2Container" style="display:none;">
-                                    <span class="result-label">Opção Adicional 2</span>
-                                    <span class="result-value" id="canulaExtra2">--</span>
                                 </div>
                             </div>
                         </div>
@@ -990,177 +970,67 @@
             <!-- DROGAS VASOATIVAS -->
             <div id="drogas" class="section">
                 <div class="card" style="grid-column: 1 / -1;">
-                    <div class="card-title">💉 Drogas Vasoativas</div>
-                    <div class="input-group">
-                        <label>Selecione a Droga</label>
-                        <select id="selectDroga" onchange="atualizarDroga()">
-                            <option value="aramin">Aramin (Metaraminol)</option>
-                            <option value="nipride">Nipride (Nitroprussiato)</option>
-                            <option value="tridil">Tridil (Nitroglicerina)</option>
-                        </select>
+                    <div class="card-title">💉 Drogas Vasoativas - Informações</div>
+                    <div class="results-container">
+                        <div class="result-box">
+                            <div class="result-item">
+                                <span class="result-label"><strong>🔹 ARAMIN (Metaraminol)</strong></span>
+                                <span class="result-value">--</span>
+                            </div>
+                            <div style="padding: 12px; background: rgba(20,184,166,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em;">
+                                • Apresentação: 10 mg/10mL<br>
+                                • Preparo: 10mL Aramin + 10mL AD = 20mL (1mg/mL)<br>
+                                • Bolus: 1.5mL<br>
+                                • Via: Reservatório CEC - Imediato
+                            </div>
+                        </div>
                     </div>
-                    <div id="drugInfo" class="drug-steps" style="margin-top: 20px;"></div>
+                    <div class="results-container" style="margin-top: 20px;">
+                        <div class="result-box">
+                            <div class="result-item">
+                                <span class="result-label"><strong>🔹 NIPRIDE (Nitroprussiato)</strong></span>
+                                <span class="result-value">--</span>
+                            </div>
+                            <div style="padding: 12px; background: rgba(20,184,166,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em;">
+                                • Apresentação: 50 mg/5mL<br>
+                                • Preparo: 5mL Nipride + 95mL SG5% = 100mL (0.5mg/mL)<br>
+                                • Bolus: 0.5-1.0mL<br>
+                                • Via: Reservatório CEC - 1-2 min LENTO<br>
+                                ⚠️ Proteger da luz (papel alumínio)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results-container" style="margin-top: 20px;">
+                        <div class="result-box">
+                            <div class="result-item">
+                                <span class="result-label"><strong>🔹 TRIDIL (Nitroglicerina)</strong></span>
+                                <span class="result-value">--</span>
+                            </div>
+                            <div style="padding: 12px; background: rgba(20,184,166,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em;">
+                                • Apresentação: 10 mg/1mL<br>
+                                • Preparo: 1mL Tridil + 90mL SG5% = 100mL (0.1mg/mL)<br>
+                                • Bolus: 0.1-0.2mL<br>
+                                • Via: Reservatório CEC - 1-2 min LENTO<br>
+                                ⚠️ Proteger da luz (papel alumínio)
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="footer">
-            <p>🩸 Calculadora Perfusionista PRO v7.0 | Desenvolvido com ❤️ para perfusionistas</p>
+            <p>🩸 Calculadora Perfusionista PRO v8.0 | Desenvolvido com ❤️ para perfusionistas</p>
             <p style="margin-top: 10px; font-size: 0.85em; opacity: 0.7;">⚠️ Ferramenta auxiliar. Sempre confirme com cirurgião e siga protocolos institucionais.</p>
         </div>
     </div>
 
     <script>
-        const drugs = {
-            aramin: {
-                name: 'Aramin (Metaraminol)',
-                steps: [
-                    { title: '1️⃣ Apresentação', text: 'Ampola com 10 mL contendo 10 mg' },
-                    { title: '2️⃣ Preparo', text: '10 mL Aramin + 10 mL Água Injeção = 20 mL (1 mg/mL)' },
-                    { title: '3️⃣ Bolus', text: '1.5 mL' },
-                    { title: '4️⃣ Aplicação', text: 'Reservatório CEC' },
-                    { title: '5️⃣ Tempo', text: 'Imediato' }
-                ]
-            },
-            nipride: {
-                name: 'Nipride (Nitroprussiato)',
-                steps: [
-                    { title: '1️⃣ Apresentação', text: 'Frasco com 5 mL contendo 50 mg' },
-                    { title: '2️⃣ Preparo', text: '5 mL Nipride + 95 mL SG5% = 100 mL (0.5 mg/mL)' },
-                    { title: '3️⃣ Bolus', text: '0.5-1.0 mL' },
-                    { title: '4️⃣ Aplicação', text: 'Reservatório CEC' },
-                    { title: '5️⃣ Tempo', text: '1-2 minutos LENTO' }
-                ],
-                warning: '⚠️ Proteger da luz (papel alumínio)'
-            },
-            tridil: {
-                name: 'Tridil (Nitroglicerina)',
-                steps: [
-                    { title: '1️⃣ Apresentação', text: 'Ampola com 1 mL contendo 10 mg' },
-                    { title: '2️⃣ Preparo', text: '1 mL Tridil + 90 mL SG5% = 100 mL (0.1 mg/mL)' },
-                    { title: '3️⃣ Bolus', text: '0.1-0.2 mL' },
-                    { title: '4️⃣ Aplicação', text: 'Reservatório CEC' },
-                    { title: '5️⃣ Tempo', text: '1-2 minutos LENTO' }
-                ],
-                warning: '⚠️ Proteger da luz (papel alumínio)'
-            }
-        };
-
-        const eletrolitos = {
-            calcio: { nome: 'Cálcio Gluconato 10%', conc: 100, fator: 1, unidade: 'mg/mL', diluicao: 'SF 0,9% ou SG5%' },
-            potassio: { nome: 'Potássio (KCl 19.1%)', conc: 191, fator: 0.5, unidade: 'mg/mL', diluicao: 'Máximo 20 mEq/L' },
-            magnesio: { nome: 'Magnésio (MgSO4 50%)', conc: 500, fator: 0.3, unidade: 'mg/mL', diluicao: 'SF 0,9% lentamente' },
-            bicarbonato: { nome: 'Bicarbonato Sódio 8.4%', conc: 84, fator: 1, unidade: 'mg/mL', diluicao: 'SF 0,9% lentamente' }
-        };
-
         function showTab(tabName) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
-        }
-
-        function calcularGasometria() {
-            const peso = parseFloat(document.getElementById('pesoGaso').value) || 0;
-            const pH = parseFloat(document.getElementById('pH').value) || 7.4;
-            const paCO2 = parseFloat(document.getElementById('paCO2').value) || 40;
-            const baseExcess = parseFloat(document.getElementById('baseExcess').value) || 0;
-            const hemoglobina = parseFloat(document.getElementById('hemoglobina').value) || 12;
-            const lactato = parseFloat(document.getElementById('lactato').value) || 2;
-            const saO2 = parseFloat(document.getElementById('saO2').value) || 98;
-            const svO2 = parseFloat(document.getElementById('svO2').value) || 70;
-            const pvCO2 = parseFloat(document.getElementById('pvCO2').value) || 46;
-
-            const deltaAO2 = saO2 - svO2;
-            const o2ER = saO2 > 0 ? ((saO2 - svO2) / saO2) * 100 : 0;
-            const deltaPvCO2 = pvCO2 - paCO2;
-
-            const doseHCO3 = baseExcess < 0 ? Math.abs(baseExcess) * peso * 0.3 : 0;
-            const volumeHCO3 = doseHCO3 > 0 ? doseHCO3 / 1.0 : 0;
-
-            let statusLactato = '';
-            if (lactato < 2) statusLactato = '🟢 2.0 mmol/L Normal';
-            else if (lactato < 4) statusLactato = '🟡 ' + lactato.toFixed(1) + ' mmol/L Elevado';
-            else statusLactato = '🔴 ' + lactato.toFixed(1) + ' mmol/L Muito Elevado';
-
-            let statusPh = '';
-            if (pH < 7.35) statusPh = '🔴 ' + pH.toFixed(2) + ' Acidemia';
-            else if (pH > 7.45) statusPh = '🟠 ' + pH.toFixed(2) + ' Alcalinemia';
-            else statusPh = '🟢 ' + pH.toFixed(2) + ' Normal';
-
-            let statusHb = '';
-            if (hemoglobina < 10) statusHb = '🔴 ' + hemoglobina.toFixed(1) + ' g/dL Anemia Grave';
-            else if (hemoglobina < 12) statusHb = '🟡 ' + hemoglobina.toFixed(1) + ' g/dL Anemia Moderada';
-            else if (hemoglobina <= 18) statusHb = '🟢 ' + hemoglobina.toFixed(1) + ' g/dL Normal';
-            else statusHb = '🟠 ' + hemoglobina.toFixed(1) + ' g/dL Policitemia';
-
-            let interpDeltaAO2 = '';
-            if (deltaAO2 <= 0) interpDeltaAO2 = '❌ Valores inválidos';
-            else if (deltaAO2 <= 30) interpDeltaAO2 = '🟢 Dentro faixa (<30 pts) - Perfusão adequada';
-            else interpDeltaAO2 = '🔴 Extração aumentada (>30 pts) - Pode indicar hipoperfusão';
-
-            let interpO2ER = '';
-            if (o2ER < 0 || o2ER > 100) interpO2ER = '❌ Valores inválidos';
-            else if (o2ER >= 20 && o2ER <= 30) interpO2ER = '🟢 Normal (20-30%) - Perfusão adequada';
-            else if (o2ER > 30 && o2ER <= 35) interpO2ER = '🟡 Elevada (30-35%) - Possível hipoperfusão';
-            else if (o2ER > 35) interpO2ER = '🔴 Muito elevada (>35%) - Hipoperfusão severa';
-            else interpO2ER = '🟠 Extração muito baixa (<20%) - Possível hiperfluxo';
-
-            let interpDeltaPvCO2 = '';
-            if (deltaPvCO2 < 6) interpDeltaPvCO2 = '🟢 Normal (<6 mmHg) - Fluxo adequado';
-            else if (deltaPvCO2 >= 6 && deltaPvCO2 < 8) interpDeltaPvCO2 = '🟡 Elevado (6-8 mmHg) - Possível baixo débito';
-            else interpDeltaPvCO2 = '🔴 Muito elevado (≥8 mmHg) - Sugere hipoperfusão significativa';
-
-            let acidBaseStatus = '';
-            if (pH < 7.35 && baseExcess < -2 && paCO2 > 45) acidBaseStatus = '🔴 Acidose Mista (Respiratória + Metabólica)';
-            else if (pH < 7.35 && paCO2 > 45) acidBaseStatus = '🟠 Acidose Respiratória';
-            else if (pH < 7.35 && baseExcess < -2) acidBaseStatus = '🟠 Acidose Metabólica';
-            else if (pH > 7.45 && baseExcess > 2) acidBaseStatus = '🟡 Alcalose Metabólica';
-            else if (pH > 7.45 && paCO2 < 35) acidBaseStatus = '🟡 Alcalose Respiratória';
-            else acidBaseStatus = '🟢 Equilíbrio Normal';
-
-            document.getElementById('statusLactato').textContent = statusLactato;
-            document.getElementById('statusPh').textContent = statusPh;
-            document.getElementById('statusHb').textContent = statusHb;
-            document.getElementById('deltaAO2').textContent = deltaAO2.toFixed(1) + ' pts';
-            document.getElementById('o2ER').textContent = o2ER.toFixed(1) + '%';
-            document.getElementById('deltaPvCO2').textContent = deltaPvCO2.toFixed(1) + ' mmHg';
-            document.getElementById('correcaoHCO3').textContent = volumeHCO3.toFixed(1) + ' mL (50% = ' + (volumeHCO3/2).toFixed(1) + ' mL)';
-
-            document.getElementById('interpDeltaAO2').textContent = interpDeltaAO2;
-            document.getElementById('interpO2ER').textContent = interpO2ER;
-            document.getElementById('interpDeltaPvCO2').textContent = interpDeltaPvCO2;
-            document.getElementById('acidBaseStatus').textContent = acidBaseStatus;
-
-            const statusGasoEl = document.getElementById('statusGaso');
-            let avaliacaoGeral = (lactato > 4 || pH < 7.30 || o2ER > 35 || deltaPvCO2 > 8) ? 'critical' : 
-                                 (lactato > 2 || pH < 7.35 || o2ER > 30 || deltaPvCO2 > 6) ? 'elevated' : 'ok';
-            
-            if (avaliacaoGeral === 'critical') {
-                statusGasoEl.innerHTML = '🔴 ATENÇÃO CRÍTICA - Hipoperfusão significativa detectada';
-                statusGasoEl.className = 'status-badge critical';
-            } else if (avaliacaoGeral === 'elevated') {
-                statusGasoEl.innerHTML = '🟡 CUIDADO - Sinais de hipoperfusão';
-                statusGasoEl.className = 'status-badge elevated';
-            } else {
-                statusGasoEl.innerHTML = '✓ PERFUSÃO ADEQUADA';
-                statusGasoEl.className = 'status-badge ok';
-            }
-        }
-
-        function limparGaso() {
-            document.getElementById('pesoGaso').value = '';
-            document.getElementById('lactato').value = '';
-            document.getElementById('pH').value = '';
-            document.getElementById('paCO2').value = '';
-            document.getElementById('baseExcess').value = '';
-            document.getElementById('hemoglobina').value = '';
-            document.getElementById('saO2').value = '';
-            document.getElementById('svO2').value = '';
-            document.getElementById('pvCO2').value = '';
-            
-            document.querySelectorAll('#gasometria .analysis-value, #gasometria .result-value').forEach(el => el.textContent = '--');
-            document.getElementById('statusGaso').innerHTML = '';
         }
 
         function calcularHemodiluicao() {
@@ -1251,6 +1121,12 @@
                 return;
             }
 
+            const eletrolitos = {
+                calcio: { nome: 'Cálcio Gluconato 10%', conc: 100, fator: 1, diluicao: 'SF 0,9% ou SG5%' },
+                potassio: { nome: 'Potássio (KCl 19.1%)', conc: 191, fator: 0.5, diluicao: 'Máximo 20 mEq/L' },
+                magnesio: { nome: 'Magnésio (MgSO4 50%)', conc: 500, fator: 0.3, diluicao: 'SF 0,9% lentamente' }
+            };
+
             const eletro = eletrolitos[tipo];
             const diferenca = (valorAlvo - valorAtual) * peso * eletro.fator;
             const volume = Math.abs(diferenca) / eletro.conc;
@@ -1261,6 +1137,118 @@
             document.getElementById('diluicaoEletro').textContent = eletro.diluicao;
         }
 
+        function calcularGasometria() {
+            const peso = parseFloat(document.getElementById('pesoGaso').value) || 0;
+            const pH = parseFloat(document.getElementById('pH').value) || 7.4;
+            const paCO2 = parseFloat(document.getElementById('paCO2').value) || 40;
+            const hemoglobina = parseFloat(document.getElementById('hemoglobina').value) || 12;
+            const lactato = parseFloat(document.getElementById('lactato').value) || 2;
+            const saO2 = parseFloat(document.getElementById('saO2').value) || 98;
+            const svO2 = parseFloat(document.getElementById('svO2').value) || 70;
+            const pvCO2 = parseFloat(document.getElementById('pvCO2').value) || 46;
+
+            const deltaAO2 = saO2 - svO2;
+            const o2ER = saO2 > 0 ? ((saO2 - svO2) / saO2) * 100 : 0;
+            const deltaPvCO2 = pvCO2 - paCO2;
+
+            let statusLactato = '';
+            if (lactato < 2) statusLactato = '🟢 Normal';
+            else if (lactato < 4) statusLactato = '🟡 Elevado';
+            else statusLactato = '🔴 Muito Elevado';
+
+            let statusPh = '';
+            if (pH < 7.35) statusPh = '🔴 Acidemia';
+            else if (pH > 7.45) statusPh = '🟠 Alcalinemia';
+            else statusPh = '🟢 Normal';
+
+            let statusHb = '';
+            if (hemoglobina < 10) statusHb = '🔴 Anemia Grave';
+            else if (hemoglobina < 12) statusHb = '🟡 Anemia Moderada';
+            else if (hemoglobina <= 18) statusHb = '🟢 Normal';
+            else statusHb = '🟠 Policitemia';
+
+            let interpDeltaAO2 = deltaAO2 <= 30 ? '🟢 Perfusão adequada' : '🔴 Possível hipoperfusão';
+            let interpO2ER = o2ER >= 20 && o2ER <= 30 ? '🟢 Normal' : o2ER > 35 ? '🔴 Hipoperfusão' : '🟡 Alterado';
+            let interpDeltaPvCO2 = deltaPvCO2 < 6 ? '🟢 Fluxo adequado' : deltaPvCO2 >= 8 ? '🔴 Hipoperfusão' : '🟡 Alterado';
+
+            document.getElementById('statusLactato').textContent = statusLactato + ' (' + lactato.toFixed(1) + ')';
+            document.getElementById('statusPh').textContent = statusPh + ' (' + pH.toFixed(2) + ')';
+            document.getElementById('statusHb').textContent = statusHb + ' (' + hemoglobina.toFixed(1) + ')';
+            document.getElementById('deltaAO2').textContent = deltaAO2.toFixed(1) + ' %';
+            document.getElementById('o2ER').textContent = o2ER.toFixed(1) + '%';
+            document.getElementById('deltaPvCO2').textContent = deltaPvCO2.toFixed(1) + ' mmHg';
+
+            document.getElementById('interpDeltaAO2').textContent = interpDeltaAO2;
+            document.getElementById('interpO2ER').textContent = interpO2ER;
+            document.getElementById('interpDeltaPvCO2').textContent = interpDeltaPvCO2;
+
+            const statusGasoEl = document.getElementById('statusGaso');
+            let avaliacaoGeral = (lactato > 4 || pH < 7.30 || o2ER > 35 || deltaPvCO2 > 8) ? 'critical' : 
+                                 (lactato > 2 || pH < 7.35 || o2ER > 30 || deltaPvCO2 > 6) ? 'elevated' : 'ok';
+            
+            if (avaliacaoGeral === 'critical') {
+                statusGasoEl.innerHTML = '🔴 CRÍTICO - Hipoperfusão significativa';
+                statusGasoEl.className = 'status-badge critical';
+            } else if (avaliacaoGeral === 'elevated') {
+                statusGasoEl.innerHTML = '🟡 ATENÇÃO - Sinais de hipoperfusão';
+                statusGasoEl.className = 'status-badge elevated';
+            } else {
+                statusGasoEl.innerHTML = '✓ PERFUSÃO ADEQUADA';
+                statusGasoEl.className = 'status-badge ok';
+            }
+        }
+
+        function calcularBicarbonato() {
+            const peso = parseFloat(document.getElementById('pesoBicarbonato').value) || 0;
+            const baseExcess = parseFloat(document.getElementById('baseExcessBicarbonato').value) || 0;
+
+            if (peso <= 0) {
+                alert('Preencha o peso');
+                return;
+            }
+
+            const doseTotalMl = Math.abs(baseExcess) * peso * 0.3;
+            const dose50Ml = doseTotalMl / 2;
+
+            document.getElementById('pesoBicRes').textContent = peso.toFixed(1) + ' kg';
+            document.getElementById('beRes').textContent = baseExcess.toFixed(1) + ' mEq/L';
+            document.getElementById('doseTotalBic').textContent = doseTotalMl.toFixed(1) + ' mL';
+            document.getElementById('dose50Bic').textContent = dose50Ml.toFixed(1) + ' mL';
+
+            const statusEl = document.getElementById('statusBic');
+            if (baseExcess < 0) {
+                statusEl.innerHTML = '✓ Acidose Detectada - Usar dose calculada';
+                statusEl.className = 'status-badge ok';
+            } else {
+                statusEl.innerHTML = '✓ Sem acidose significativa';
+                statusEl.className = 'status-badge ok';
+            }
+        }
+
+        function limparBicarbonato() {
+            document.getElementById('pesoBicarbonato').value = '';
+            document.getElementById('baseExcessBicarbonato').value = '';
+            document.getElementById('pesoBicRes').textContent = '--';
+            document.getElementById('beRes').textContent = '--';
+            document.getElementById('doseTotalBic').textContent = '-- mL';
+            document.getElementById('dose50Bic').textContent = '-- mL';
+            document.getElementById('statusBic').innerHTML = '';
+        }
+
+        function limparGaso() {
+            document.getElementById('pesoGaso').value = '';
+            document.getElementById('lactato').value = '';
+            document.getElementById('pH').value = '';
+            document.getElementById('paCO2').value = '';
+            document.getElementById('hemoglobina').value = '';
+            document.getElementById('saO2').value = '';
+            document.getElementById('svO2').value = '';
+            document.getElementById('pvCO2').value = '';
+            
+            document.querySelectorAll('#gasometria .analysis-value, #gasometria .result-value, #gasometria .analysis-item .analysis-value').forEach(el => el.textContent = '--');
+            document.getElementById('statusGaso').innerHTML = '';
+        }
+
         function calcularCanulas() {
             const peso = parseFloat(document.getElementById('pesoCanula').value) || 0;
 
@@ -1269,7 +1257,7 @@
                 return;
             }
 
-            let arterial = '', categoria = '', vcs = '', vci = '', extra1 = '', extra2 = '', fluxo = '';
+            let arterial = '', categoria = '', vcs = '', vci = '', fluxo = '';
 
             if (peso <= 5) { 
                 arterial = '08F - 500 mL'; 
@@ -1279,14 +1267,14 @@
                 fluxo = '500 mL/min';
             } 
             else if (peso <= 15) { 
-                arterial = '08-10F - 500-1100 mL'; 
+                arterial = '08-10F - 1100 mL'; 
                 categoria = 'Pediátricos';
                 vcs = '12F';
                 vci = '16F';
                 fluxo = '1100 mL/min';
             } 
             else if (peso <= 40) { 
-                arterial = '12-14F - 1800-2500 mL'; 
+                arterial = '12-14F - 2500 mL'; 
                 categoria = 'Adolescentes';
                 vcs = '16F';
                 vci = '20F';
@@ -1298,17 +1286,13 @@
                 vcs = '24F';
                 vci = '28F';
                 fluxo = '3800 mL/min';
-                extra1 = '2E 32/40';
-                extra2 = '3E 28/28/28';
             } 
             else { 
-                arterial = '20-22F - 4700-5800 mL'; 
+                arterial = '20-22F - 5800 mL'; 
                 categoria = 'Grandes adultos';
                 vcs = '34F';
                 vci = '36F';
                 fluxo = '5800 mL/min';
-                extra1 = '2E 36/46';
-                extra2 = '3E 28/36/36';
             }
 
             document.getElementById('pesoCanRes').textContent = peso.toFixed(1) + ' kg';
@@ -1317,39 +1301,7 @@
             document.getElementById('fluxoArterial').textContent = fluxo;
             document.getElementById('canulaVCS').textContent = vcs;
             document.getElementById('canulaVCI').textContent = vci;
-
-            if (extra1) {
-                document.getElementById('extra1Container').style.display = 'flex';
-                document.getElementById('canulaExtra1').textContent = extra1;
-            } else {
-                document.getElementById('extra1Container').style.display = 'none';
-            }
-
-            if (extra2) {
-                document.getElementById('extra2Container').style.display = 'flex';
-                document.getElementById('canulaExtra2').textContent = extra2;
-            } else {
-                document.getElementById('extra2Container').style.display = 'none';
-            }
         }
-
-        function atualizarDroga() {
-            const drugKey = document.getElementById('selectDroga').value;
-            const drug = drugs[drugKey];
-
-            let html = '';
-            drug.steps.forEach(step => {
-                html += `<div class="drug-step"><strong>${step.title}</strong>${step.text}</div>`;
-            });
-
-            if (drug.warning) {
-                html += `<div class="drug-warning">${drug.warning}</div>`;
-            }
-
-            document.getElementById('drugInfo').innerHTML = html;
-        }
-
-        function atualizarEletrolito() {}
 
         function limparHemo() {
             document.getElementById('pesoHemo').value = '';
@@ -1359,7 +1311,10 @@
             document.getElementById('statusHemo').innerHTML = '';
         }
 
-        atualizarDroga();
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('App inicializado');
+        });
     </script>
 </body>
 </html>
