@@ -416,10 +416,11 @@
             <!-- HEMODILUIÇÃO -->
             <div id="hemodiluicao" class="section active">
                 <div class="formula-box">
-                    📐 Fórmula: VP = ((Ht Inicial / Ht Final) × VST) - VST | VST = Peso × 70 mL/kg
+                    📐 Fórmula: VP = ((Ht Inicial / Ht Final) × Volume Sanguíneo) - Volume Sanguíneo<br>
+                    <strong>Fator mL/kg:</strong> &lt;10kg=85 | 10-20kg=80 | 21-30kg=75 | 31-40kg=65 | &gt;40kg=60
                 </div>
                 <div class="info-box">
-                    ✅ Ex: 60kg, Ht 30%→22%: VST=4200mL | VP=((30/22)×4200)-4200=1527mL ✓
+                    ✅ Ex: 60kg, Ht 30%→22%: VS=4200mL | VP=((30/22)×4200)-4200=1527mL ✓
                 </div>
                 <div class="section-grid">
                     <div class="card">
@@ -450,7 +451,7 @@
                                     <span class="result-value" id="pesohemoRes">--</span>
                                 </div>
                                 <div class="result-item">
-                                    <span class="result-label">VST</span>
+                                    <span class="result-label">Volume Sanguíneo</span>
                                     <span class="result-value" id="vst">--</span>
                                 </div>
                                 <div class="result-item">
@@ -636,6 +637,22 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <div class="card-title">📋 Ajuste de Dose</div>
+                    <div class="results-container">
+                        <div class="result-box">
+                            <div style="padding: 15px; background: rgba(20,184,166,0.1); border-radius: 8px; color: var(--text-secondary); font-size: 0.9em; line-height: 1.8;">
+                                <strong>🔴 Insuficiência Renal:</strong><br>
+                                Contraindicado na insuficiência renal grave. Utilizar com cautela em pacientes com injúria renal.<br><br>
+                                <strong>🟡 Insuficiência Hepática:</strong><br>
+                                Não é necessário ajuste de dose.<br><br>
+                                <strong>🔵 Hemodiálise:</strong><br>
+                                Não foram encontrados informações sobre ajuste de dose para pacientes em hemodiálise.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- ELETROLITOS (SEM BICARBONATO) -->
@@ -702,8 +719,8 @@
                     <div class="results-container">
                         <div class="result-box">
                             <div class="result-item">
-                                <span class="result-label">Cálcio Total</span>
-                                <span class="result-value">8.5-10.5 mg/dL</span>
+                                <span class="result-label">Cálcio Ionizado</span>
+                                <span class="result-value">1.1-1.4 mmol/L (4.5-5.6 mg/dL)</span>
                             </div>
                             <div class="result-item">
                                 <span class="result-label">Potássio</span>
@@ -923,6 +940,10 @@
                             <label>Peso (kg)</label>
                             <input type="number" id="pesoCanula" placeholder="70" step="0.1">
                         </div>
+                        <div class="input-group">
+                            <label>Fluxo Medido (mL/min) - Opcional</label>
+                            <input type="number" id="fluxoMedidoCanula" placeholder="Deixe em branco para usar peso" step="10">
+                        </div>
                         <div class="button-group">
                             <button class="btn btn-primary" onclick="calcularCanulas()" style="flex: 1;">Recomendar Cânulas</button>
                         </div>
@@ -1111,12 +1132,20 @@
                 return;
             }
 
-            const vst = peso * 70;
-            const volumePerfusato = ((htInicial / htFinal) * vst) - vst;
+            // Fator mL/kg pela TABELA corrigida
+            let fatorMlKg;
+            if (peso < 10) fatorMlKg = 85;
+            else if (peso >= 10 && peso <= 20) fatorMlKg = 80;
+            else if (peso >= 21 && peso <= 30) fatorMlKg = 75;
+            else if (peso >= 31 && peso <= 40) fatorMlKg = 65;
+            else fatorMlKg = 60;
+
+            const volumeSanguineo = peso * fatorMlKg;
+            const volumePerfusato = ((htInicial / htFinal) * volumeSanguineo) - volumeSanguineo;
             const perfusatoPerKg = volumePerfusato / peso;
 
             document.getElementById('pesohemoRes').textContent = peso.toFixed(1) + ' kg';
-            document.getElementById('vst').textContent = Math.round(vst) + ' mL';
+            document.getElementById('vst').textContent = Math.round(volumeSanguineo) + ' mL';
             document.getElementById('htInicialRes').textContent = htInicial.toFixed(1) + '%';
             document.getElementById('htFinalRes').textContent = htFinal.toFixed(1) + '%';
             document.getElementById('volumePerfusato').textContent = Math.round(volumePerfusato) + ' mL';
@@ -1150,14 +1179,14 @@
             }
 
             const sc = 0.007184 * Math.pow(altura, 0.725) * Math.pow(peso, 0.425);
-            const fluxoMin = 2.2 * sc;
-            const fluxoMed = 2.4 * sc;
-            const fluxoMax = 2.6 * sc;
+            const fluxoMin = 2.4 * sc;
+            const fluxoMed = 2.6 * sc;
+            const fluxoMax = 3.0 * sc;
 
             document.getElementById('scResult').textContent = sc.toFixed(2) + ' m²';
-            document.getElementById('fluxoMin').textContent = fluxoMin.toFixed(2) + ' L/min';
-            document.getElementById('fluxoMed').textContent = fluxoMed.toFixed(2) + ' L/min';
-            document.getElementById('fluxoMax').textContent = fluxoMax.toFixed(2) + ' L/min';
+            document.getElementById('fluxoMin').textContent = fluxoMin.toFixed(2) + ' L/min (2.4 L/min/m²)';
+            document.getElementById('fluxoMed').textContent = fluxoMed.toFixed(2) + ' L/min (2.6 L/min/m²)';
+            document.getElementById('fluxoMax').textContent = fluxoMax.toFixed(2) + ' L/min (3.0 L/min/m²)';
         }
 
         function limparFluxos() {
@@ -1343,56 +1372,70 @@
 
         function calcularCanulas() {
             const peso = parseFloat(document.getElementById('pesoCanula').value) || 0;
+            const fluxoMedidoStr = document.getElementById('fluxoMedidoCanula').value || '';
+            const fluxoMedido = fluxoMedidoStr ? parseFloat(fluxoMedidoStr) : null;
 
             if (peso <= 0) {
                 alert('Preencha o peso');
                 return;
             }
 
-            let arterial = '', categoria = '', vcs = '', vci = '', fluxo = '';
+            // Tabela de cânulas por faixa de peso
+            const tabelaPorPeso = [
+                { pesoMax: 5, arterial: '08F - 500 mL', fluxoArterial: 500, vcs: '12F', vci: '12F' },
+                { pesoMax: 15, arterial: '08-10F - 1100 mL', fluxoArterial: 1100, vcs: '12F', vci: '16F' },
+                { pesoMax: 40, arterial: '12-14F - 2500 mL', fluxoArterial: 2500, vcs: '16F', vci: '20F' },
+                { pesoMax: 70, arterial: '18F - 3800 mL', fluxoArterial: 3800, vcs: '24F', vci: '28F' },
+                { pesoMax: Infinity, arterial: '20-22F - 5800 mL', fluxoArterial: 5800, vcs: '34F', vci: '36F' }
+            ];
 
-            if (peso <= 5) { 
-                arterial = '08F - 500 mL'; 
-                categoria = 'Pequenos';
-                vcs = '12F';
-                vci = '12F';
-                fluxo = '500 mL/min';
-            } 
-            else if (peso <= 15) { 
-                arterial = '08-10F - 1100 mL'; 
-                categoria = 'Pediátricos';
-                vcs = '12F';
-                vci = '16F';
-                fluxo = '1100 mL/min';
-            } 
-            else if (peso <= 40) { 
-                arterial = '12-14F - 2500 mL'; 
-                categoria = 'Adolescentes';
-                vcs = '16F';
-                vci = '20F';
-                fluxo = '2500 mL/min';
-            } 
-            else if (peso <= 70) { 
-                arterial = '18F - 3800 mL'; 
-                categoria = 'Adultos';
-                vcs = '24F';
-                vci = '28F';
-                fluxo = '3800 mL/min';
-            } 
-            else { 
-                arterial = '20-22F - 5800 mL'; 
-                categoria = 'Grandes adultos';
-                vcs = '34F';
-                vci = '36F';
-                fluxo = '5800 mL/min';
+            // Tabela completa de fluxos para calibres
+            const tabelaPorFluxo = [
+                { fluxoMin: 0, fluxoMax: 500, arterial: '08F - 500 mL', fluxoArterial: 500 },
+                { fluxoMin: 501, fluxoMax: 1100, arterial: '08-10F - 1100 mL', fluxoArterial: 1100 },
+                { fluxoMin: 1101, fluxoMax: 2500, arterial: '12-14F - 2500 mL', fluxoArterial: 2500 },
+                { fluxoMin: 2501, fluxoMax: 3800, arterial: '18F - 3800 mL', fluxoArterial: 3800 },
+                { fluxoMin: 3801, fluxoMax: 5800, arterial: '20-22F - 5800 mL', fluxoArterial: 5800 },
+                { fluxoMin: 5801, fluxoMax: Infinity, arterial: '22-24F - 8000+ mL', fluxoArterial: 8000 }
+            ];
+
+            let categoria = '';
+            if (peso <= 5) categoria = 'Pequenos';
+            else if (peso <= 15) categoria = 'Pediátricos';
+            else if (peso <= 40) categoria = 'Adolescentes';
+            else if (peso <= 70) categoria = 'Adultos';
+            else categoria = 'Grandes adultos';
+
+            // Obter cânula recomendada por peso
+            const canulasPeso = tabelaPorPeso.find(c => peso <= c.pesoMax);
+
+            let canulaArterialFinal = canulasPeso.arterial;
+            let fluxoArterialFinal = canulasPeso.fluxoArterial;
+            let vcsArterialFinal = canulasPeso.vcs;
+            let vciArterialFinal = canulasPeso.vci;
+            let observacao = '';
+
+            // Se fluxo foi medido, comparar e recomendar duas se necessário
+            if (fluxoMedido !== null && fluxoMedido > 0) {
+                const canulaFluxo = tabelaPorFluxo.find(c => fluxoMedido >= c.fluxoMin && fluxoMedido <= c.fluxoMax);
+                
+                // Se as recomendações são diferentes, mostrar ambas
+                if (canulaFluxo && canulaFluxo.arterial !== canulasPeso.arterial) {
+                    observacao = '<br>📌 <strong>POR FLUXO:</strong> ' + canulaFluxo.arterial + ' (' + canulaFluxo.fluxoArterial + ' mL/min)';
+                    canulaArterialFinal = canulasPeso.arterial + observacao;
+                } else if (canulaFluxo) {
+                    // Confirmação de que ambas coincidem
+                    observacao = ' ✓ Fluxo e peso concordam';
+                    canulaArterialFinal = canulasPeso.arterial + observacao;
+                }
             }
 
             document.getElementById('pesoCanRes').textContent = peso.toFixed(1) + ' kg';
             document.getElementById('categoriaCanula').textContent = categoria;
-            document.getElementById('canulaArterial').textContent = arterial;
-            document.getElementById('fluxoArterial').textContent = fluxo;
-            document.getElementById('canulaVCS').textContent = vcs;
-            document.getElementById('canulaVCI').textContent = vci;
+            document.getElementById('canulaArterial').innerHTML = canulaArterialFinal;
+            document.getElementById('fluxoArterial').textContent = fluxoArterialFinal + ' mL/min';
+            document.getElementById('canulaVCS').textContent = vcsArterialFinal;
+            document.getElementById('canulaVCI').textContent = vciArterialFinal;
         }
 
         function limparHemo() {
