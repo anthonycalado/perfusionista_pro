@@ -403,6 +403,7 @@
         <div class="tabs-container">
             <button class="tab-btn active" onclick="showTab('hemodiluicao')">💧 Hemodiluição</button>
             <button class="tab-btn" onclick="showTab('fluxos')">🌡️ Fluxos</button>
+            <button class="tab-btn" onclick="showTab('rvs')">🧮 RVS</button>
             <button class="tab-btn" onclick="showTab('furosemida')">💊 Furosemida</button>
             <button class="tab-btn" onclick="showTab('manitol')">🧪 Manitol</button>
             <button class="tab-btn" onclick="showTab('eletrolitos')">⚡ Eletrolitos</button>
@@ -538,6 +539,103 @@
                                 • Mínimo: 2.2 L/min por m²<br>
                                 • Médio: 2.4 L/min por m²<br>
                                 • Máximo: 2.6 L/min por m²
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RVS (Resistência Vascular Sistêmica) -->
+            <div id="rvs" class="section">
+                <div class="formula-box">
+                    📐 Fórmulas:<br>
+                    <strong>RVS (dyn·s·cm⁻⁵)</strong> = ((MAP − RAP) / DC) × 80<br>
+                    <strong>RVS indexada (dyn·s·cm⁻⁵·m²)</strong> = RVS × SC
+                </div>
+                <div class="info-box">
+                    🧮 Insira pressão arterial média (PAM), pressão atrial direita (PAD/RAP), débito cardíaco e superfície corpórea (SC).<br>
+                    Se não souber a SC, calcule antes na aba Fluxos.
+                </div>
+
+                <div class="section-grid">
+                    <div class="card">
+                        <div class="card-title">🧍 Dados Hemodinâmicos</div>
+
+                        <div class="input-row-3">
+                            <div class="input-group">
+                                <label>PAM (mmHg)</label>
+                                <input type="number" id="pamRvs" placeholder="70" step="1">
+                            </div>
+                            <div class="input-group">
+                                <label>RAP / PAD (mmHg)</label>
+                                <input type="number" id="rapRvs" placeholder="5" step="1">
+                            </div>
+                            <div class="input-group">
+                                <label>Débito Cardíaco (L/min)</label>
+                                <input type="number" id="dcRvs" placeholder="5.0" step="0.1">
+                            </div>
+                        </div>
+
+                        <div class="input-group" style="margin-top: 15px;">
+                            <label>Superfície Corpórea (m²) – opcional</label>
+                            <input type="number" id="scRvs" placeholder="1.80" step="0.01">
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="calcularRvs()">Calcular</button>
+                            <button class="btn btn-secondary" onclick="limparRvs()">Limpar</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">🧮 Resultados RVS</div>
+                        <div class="results-container">
+                            <div class="result-box">
+                                <div class="result-item">
+                                    <span class="result-label">Gradiente (PAM − RAP)</span>
+                                    <span class="result-value" id="gradienteRvs">-- mmHg</span>
+                                </div>
+                                <div class="result-item highlight">
+                                    <span class="result-label">RVS</span>
+                                    <span class="result-value" id="rvsValor">-- dyn·s·cm⁻⁵</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">RVS indexada</span>
+                                    <span class="result-value" id="rvsIndex">-- dyn·s·cm⁻⁵·m²</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Faixa (RVS)</span>
+                                    <span class="result-value" id="faixaRvs">--</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Faixa (RVS indexada)</span>
+                                    <span class="result-value" id="faixaRvsIndex">--</span>
+                                </div>
+                            </div>
+                            <div id="statusRvs" class="status-badge"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <div class="card-title">📋 Valores de Referência</div>
+                    <div class="results-container">
+                        <div class="result-box">
+                            <div class="result-item">
+                                <span class="result-label">RVS normal</span>
+                                <span class="result-value">800–1200 dyn·s·cm⁻⁵</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">RVS baixa</span>
+                                <span class="result-value">&lt; 800 dyn·s·cm⁻⁵</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">RVS elevada</span>
+                                <span class="result-value">&gt; 1200 dyn·s·cm⁻⁵</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">RVS index normal</span>
+                                <span class="result-value">1600–2400 dyn·s·cm⁻⁵·m²</span>
                             </div>
                         </div>
                     </div>
@@ -1198,6 +1296,71 @@
             document.getElementById('fluxoMax').textContent = '--';
         }
 
+        function calcularRvs() {
+            const pam = parseFloat(document.getElementById('pamRvs').value) || 0;
+            const rap = parseFloat(document.getElementById('rapRvs').value) || 0;
+            const dc = parseFloat(document.getElementById('dcRvs').value) || 0;
+            const sc = parseFloat(document.getElementById('scRvs').value) || 0;
+
+            if (pam === 0 || dc === 0) {
+                alert('Preencha pelo menos PAM e Débito Cardíaco.');
+                return;
+            }
+
+            const gradiente = pam - rap;
+            if (gradiente <= 0) {
+                alert('PAM deve ser maior que RAP/PAD para cálculo de RVS.');
+                return;
+            }
+
+            const rvs = (gradiente / dc) * 80;
+            const rvsIndex = sc > 0 ? rvs * sc : null;
+
+            document.getElementById('gradienteRvs').textContent = gradiente.toFixed(1) + ' mmHg';
+            document.getElementById('rvsValor').textContent = rvs.toFixed(0) + ' dyn·s·cm⁻⁵';
+            document.getElementById('rvsIndex').textContent = rvsIndex ? rvsIndex.toFixed(0) + ' dyn·s·cm⁻⁵·m²' : '--';
+
+            let faixaRvs;
+            if (rvs < 800) faixaRvs = 'Baixa (vasodilatação)';
+            else if (rvs <= 1200) faixaRvs = 'Normal';
+            else faixaRvs = 'Elevada (vasoconstrição)';
+
+            let faixaRvsIdx = '--';
+            if (rvsIndex) {
+                if (rvsIndex < 1600) faixaRvsIdx = 'Baixa';
+                else if (rvsIndex <= 2400) faixaRvsIdx = 'Normal';
+                else faixaRvsIdx = 'Elevada';
+            }
+
+            document.getElementById('faixaRvs').textContent = faixaRvs;
+            document.getElementById('faixaRvsIndex').textContent = faixaRvsIdx;
+
+            const statusEl = document.getElementById('statusRvs');
+            if (rvs < 800) {
+                statusEl.innerHTML = 'VASODILATAÇÃO SISTÊMICA';
+                statusEl.className = 'status-badge elevated';
+            } else if (rvs > 1200) {
+                statusEl.innerHTML = 'VASOCONSTRIÇÃO SISTÊMICA';
+                statusEl.className = 'status-badge warning';
+            } else {
+                statusEl.innerHTML = 'RVS DENTRO DA FAIXA ESPERADA';
+                statusEl.className = 'status-badge ok';
+            }
+        }
+
+        function limparRvs() {
+            document.getElementById('pamRvs').value = '';
+            document.getElementById('rapRvs').value = '';
+            document.getElementById('dcRvs').value = '';
+            document.getElementById('scRvs').value = '';
+            document.getElementById('gradienteRvs').textContent = '-- mmHg';
+            document.getElementById('rvsValor').textContent = '-- dyn·s·cm⁻⁵';
+            document.getElementById('rvsIndex').textContent = '-- dyn·s·cm⁻⁵·m²';
+            document.getElementById('faixaRvs').textContent = '--';
+            document.getElementById('faixaRvsIndex').textContent = '--';
+            document.getElementById('statusRvs').innerHTML = '';
+        }
+
         function calcularFurosemida() {
             const peso = parseFloat(document.getElementById('pesoFuro').value) || 0;
             const apresentacao = parseInt(document.getElementById('apresentacaoFuro').value);
@@ -1448,3 +1611,4 @@
     </script>
 </body>
 </html>
+
