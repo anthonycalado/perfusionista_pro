@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🩸 Calculadora Perfusionista PRO v9.0</title>
+    <title>Calculadora Perfusionista PRO v9.1</title>
     <style>
         * {
             margin: 0;
@@ -25,7 +25,9 @@
             --border: #334155;
         }
 
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -36,7 +38,10 @@
             line-height: 1.6;
         }
 
-        .container { max-width: 1400px; margin: 0 auto; }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
@@ -96,13 +101,29 @@
             box-shadow: 0 4px 15px rgba(15, 118, 110, 0.4);
         }
 
-        .content { display: grid; gap: 30px; }
-        .section { display: none; animation: fadeIn 0.3s ease; }
-        .section.active { display: block; }
+        .content {
+            display: grid;
+            gap: 30px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .section-grid {
@@ -112,7 +133,9 @@
         }
 
         @media (max-width: 1024px) {
-            .section-grid { grid-template-columns: 1fr; }
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .card {
@@ -133,6 +156,7 @@
             font-size: 1.4em;
             margin-bottom: 20px;
             color: var(--secondary);
+            font-weight: 700;
         }
 
         .input-group {
@@ -305,6 +329,18 @@
             border: 1px solid var(--danger);
         }
 
+        .status-badge.elevated {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .status-badge.critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
         .footer {
             text-align: center;
             margin-top: 60px;
@@ -333,14 +369,39 @@
         }
 
         @media (max-width: 768px) {
-            .header { padding: 25px; }
-            .header h1 { font-size: 1.8em; }
-            .section-grid { grid-template-columns: 1fr; }
-            .tabs-container { flex-direction: column; }
-            .tab-btn { min-width: auto; }
-            .button-group { flex-direction: column; }
-            .btn { min-height: 44px; }
-            .input-row, .input-row-3, .input-row-4 { grid-template-columns: 1fr; }
+            .header {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs-container {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                min-width: auto;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                min-height: 44px;
+            }
+
+            .input-row,
+            .input-row-3,
+            .input-row-4 {
+                grid-template-columns: 1fr;
+            }
         }
 
         .analysis-section {
@@ -379,52 +440,47 @@
             color: var(--success);
             font-weight: 700;
         }
-
-        .status-badge.elevated {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--warning);
-            border: 1px solid var(--warning);
-        }
-
-        .status-badge.critical {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-            border: 1px solid var(--danger);
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🩸 Calculadora Perfusionista PRO</h1>
+            <h1>Calculadora Perfusionista PRO</h1>
             <p>Cálculos precisos para cirurgias cardíacas com CEC</p>
         </div>
 
         <div class="tabs-container">
-            <button class="tab-btn active" onclick="showTab('hemodiluicao')">💧 Hemodiluição</button>
-            <button class="tab-btn" onclick="showTab('fluxos')">🌡️ Fluxos</button>
-            <button class="tab-btn" onclick="showTab('furosemida')">💊 Furosemida</button>
-            <button class="tab-btn" onclick="showTab('manitol')">🧪 Manitol</button>
-            <button class="tab-btn" onclick="showTab('eletrolitos')">⚡ Eletrolitos</button>
-            <button class="tab-btn" onclick="showTab('gasometria')">🫁 Gasometria</button>
-            <button class="tab-btn" onclick="showTab('bicarbonato')">🔹 Bicarbonato</button>
-            <button class="tab-btn" onclick="showTab('canulas')">🩺 Cânulas</button>
-            <button class="tab-btn" onclick="showTab('drogas')">💉 Drogas</button>
+            <button class="tab-btn active" onclick="showTab('hemodiluicao')">Hemodiluição</button>
+            <button class="tab-btn" onclick="showTab('fluxos')">Fluxos</button>
+            <button class="tab-btn" onclick="showTab('rvs')">RVS</button>
+            <button class="tab-btn" onclick="showTab('furosemida')">Furosemida</button>
+            <button class="tab-btn" onclick="showTab('manitol')">Manitol</button>
+            <button class="tab-btn" onclick="showTab('eletrolitos')">Eletrólitos</button>
+            <button class="tab-btn" onclick="showTab('gasometria')">Gasometria</button>
+            <button class="tab-btn" onclick="showTab('bicarbonato')">Bicarbonato</button>
+            <button class="tab-btn" onclick="showTab('canulas')">Cânulas</button>
+            <button class="tab-btn" onclick="showTab('drogas')">Drogas</button>
+            <button class="tab-btn" onclick="showTab('balancoHidrico')">Balanço Hídrico</button>
         </div>
+</parameter>
 
         <div class="content">
             <!-- HEMODILUIÇÃO -->
             <div id="hemodiluicao" class="section active">
                 <div class="formula-box">
-                    📐 Fórmula: VP = ((Ht Inicial / Ht Final) × Volume Sanguíneo) - Volume Sanguíneo<br>
-                    <strong>Fator mL/kg:</strong> &lt;10kg=85 | 10-20kg=80 | 21-30kg=75 | 31-40kg=65 | &gt;40kg=60
+                    Fórmula: VP = (Ht Inicial - Ht Final) / (Volume Sanguíneo) - (Volume Sanguíneo)<br>
+                    <strong>Fator mL/kg:</strong><br>
+                    &lt;10kg: 85 | 10-20kg: 80 | 21-30kg: 75 | 31-40kg: 65 | &gt;40kg: 60
                 </div>
+
                 <div class="info-box">
-                    ✅ Ex: 60kg, Ht 30%→22%: VS=4200mL | VP=((30/22)×4200)-4200=1527mL ✓
+                    Ex: 60kg, Ht 30→22 VS: 4200mL<br>
+                    VP: (30-22)/4200 × (4200-4200) = 1527mL
                 </div>
+
                 <div class="section-grid">
                     <div class="card">
-                        <div class="card-title">📊 Dados do Paciente</div>
+                        <div class="card-title">Dados do Paciente</div>
                         <div class="input-group">
                             <label>Peso (kg)</label>
                             <input type="number" id="pesoHemo" placeholder="60" step="0.1">
@@ -442,8 +498,9 @@
                             <button class="btn btn-secondary" onclick="limparHemo()">Limpar</button>
                         </div>
                     </div>
+
                     <div class="card">
-                        <div class="card-title">📈 Resultados</div>
+                        <div class="card-title">Resultados</div>
                         <div class="results-container">
                             <div class="result-box">
                                 <div class="result-item">
@@ -463,7 +520,7 @@
                                     <span class="result-value" id="htFinalRes">--</span>
                                 </div>
                                 <div class="result-item highlight">
-                                    <span class="result-label">🎯 VOLUME PERFUSATO</span>
+                                    <span class="result-label">VOLUME PERFUSATO</span>
                                     <span class="result-value" id="volumePerfusato">-- mL</span>
                                 </div>
                                 <div class="result-item">
@@ -475,20 +532,21 @@
                                     <span class="result-value" id="faixaSeguranca">--</span>
                                 </div>
                             </div>
-                            <div id="statusHemo" class="status-badge"></div>
                         </div>
+                        <div id="statusHemo" class="status-badge"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- FLUXOS / SC -->
+            <!-- FLUXOS SC -->
             <div id="fluxos" class="section">
                 <div class="info-box">
-                    🌡️ Cálculo de Superfície Corpórea (SC) pela fórmula de Du Bois e fluxos de CEC (L/min)
+                    Cálculo de Superfície Corpórea (SC) pela fórmula de Du Bois e fluxos de CEC (L/min)
                 </div>
+
                 <div class="section-grid">
                     <div class="card">
-                        <div class="card-title">🧍 Dados para SC</div>
+                        <div class="card-title">Dados para SC</div>
                         <div class="input-group">
                             <label>Peso (kg)</label>
                             <input type="number" id="pesoFluxo" placeholder="70" step="0.1">
@@ -502,8 +560,9 @@
                             <button class="btn btn-secondary" onclick="limparFluxos()">Limpar</button>
                         </div>
                     </div>
+
                     <div class="card">
-                        <div class="card-title">🌡️ Resultados SC & Fluxos</div>
+                        <div class="card-title">Resultados SC e Fluxos</div>
                         <div class="results-container">
                             <div class="result-box">
                                 <div class="result-item">
@@ -528,16 +587,94 @@
                 </div>
 
                 <div class="card" style="margin-top: 30px;">
-                    <div class="card-title">📋 Informações</div>
+                    <div class="card-title">Informações</div>
                     <div class="results-container">
                         <div class="result-box">
                             <div style="padding: 15px; background: rgba(20,184,166,0.1); border-radius: 8px; color: var(--text-secondary); font-size: 0.9em; line-height: 1.8;">
-                                <strong>📐 Fórmula Du Bois:</strong><br>
-                                SC = 0.007184 × Altura^0.725 × Peso^0.425<br><br>
-                                <strong>💧 Fluxos CEC:</strong><br>
-                                • Mínimo: 2.2 L/min por m²<br>
-                                • Médio: 2.4 L/min por m²<br>
-                                • Máximo: 2.6 L/min por m²
+                                <strong>Fórmula Du Bois:</strong><br>
+                                SC = 0.007184 × Altura<sup>0.725</sup> × Peso<sup>0.425</sup><br><br>
+                                <strong>Fluxos CEC:</strong><br>
+                                Mínimo: 2.2 L/min por m²<br>
+                                Médio: 2.4 L/min por m²<br>
+                                Máximo: 2.6 L/min por m²
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RVS Resistência Vascular Sistêmica -->
+            <div id="rvs" class="section">
+                <div class="formula-box">
+                    <strong>Fórmula RVS corrigida:</strong><br>
+                    RVS = PAM × 80 / FLUXO (L/min)
+                </div>
+
+                <div class="info-box">
+                    Insira pressão arterial média (PAM) e fluxo em L/min.<br>
+                    Fórmula simplificada para perfusão CEC.
+                </div>
+
+                <div class="section-grid">
+                    <div class="card">
+                        <div class="card-title">Dados Hemodinâmicos</div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label>PAM (mmHg)</label>
+                                <input type="number" id="pamRvs" placeholder="70" step="1">
+                            </div>
+                            <div class="input-group">
+                                <label>Fluxo (L/min)</label>
+                                <input type="number" id="fluxoRvs" placeholder="5.0" step="0.1">
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="calcularRvs()">Calcular</button>
+                            <button class="btn btn-secondary" onclick="limparRvs()">Limpar</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Resultados RVS</div>
+                        <div class="results-container">
+                            <div class="result-box">
+                                <div class="result-item">
+                                    <span class="result-label">PAM</span>
+                                    <span class="result-value" id="pamRes">-- mmHg</span>
+                                </div>
+                                <div class="result-item highlight">
+                                    <span class="result-label">RVS</span>
+                                    <span class="result-value" id="rvsValor">-- dyn·s·cm⁻⁵</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Faixa RVS</span>
+                                    <span class="result-value" id="faixaRvs">--</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="statusRvs" class="status-badge"></div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <div class="card-title">Valores de Referência</div>
+                    <div class="results-container">
+                        <div class="result-box">
+                            <div class="result-item">
+                                <span class="result-label">RVS normal</span>
+                                <span class="result-value">800-1200 dyn·s·cm⁻⁵</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">RVS baixa</span>
+                                <span class="result-value">&lt; 800 dyn·s·cm⁻⁵</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">RVS elevada</span>
+                                <span class="result-value">&gt; 1200 dyn·s·cm⁻⁵</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">RVS index normal</span>
+                                <span class="result-value">1600-2400 dyn·s·cm⁻⁵·m²</span>
                             </div>
                         </div>
                     </div>
@@ -547,11 +684,12 @@
             <!-- FUROSEMIDA -->
             <div id="furosemida" class="section">
                 <div class="info-box">
-                    💊 Dose habitual: 40-80mg | Apresentações: 10mg/mL (ampola 10mL) | 40mg/2mL (ampola 2mL)
+                    Dose habitual: 40-80mg | Apresentações: 10mg/mL (ampola 10mL = 40mg), 2mL (ampola 2mL = 40mg)
                 </div>
+
                 <div class="section-grid">
                     <div class="card">
-                        <div class="card-title">💊 Cálculo Furosemida</div>
+                        <div class="card-title">Cálculo Furosemida</div>
                         <div class="input-group">
                             <label>Peso (kg)</label>
                             <input type="number" id="pesoFuro" placeholder="70" step="0.1">
@@ -559,16 +697,17 @@
                         <div class="input-group">
                             <label>Apresentação Disponível</label>
                             <select id="apresentacaoFuro">
-                                <option value="10">10 mg/mL (ampola 10mL)</option>
-                                <option value="20">40 mg/2mL (ampola 2mL)</option>
+                                <option value="10">10 mg/mL - ampola 10mL</option>
+                                <option value="20">40 mg/2mL - ampola 2mL</option>
                             </select>
                         </div>
                         <div class="button-group">
-                            <button class="btn btn-primary" onclick="calcularFurosemida()" style="flex: 1;">Calcular</button>
+                            <button class="btn btn-primary" onclick="calcularFurosemida()" style="flex: 1">Calcular</button>
                         </div>
                     </div>
+
                     <div class="card">
-                        <div class="card-title">💊 Resultado</div>
+                        <div class="card-title">Resultado</div>
                         <div class="results-container">
                             <div class="result-box">
                                 <div class="result-item">
@@ -585,7 +724,7 @@
                                 </div>
                                 <div class="result-item">
                                     <span class="result-label">Protocolo</span>
-                                    <span class="result-value">40-80 mg / bolus</span>
+                                    <span class="result-value">40-80 mg em bolus</span>
                                 </div>
                             </div>
                         </div>
@@ -596,25 +735,27 @@
             <!-- MANITOL -->
             <div id="manitol" class="section">
                 <div class="info-box">
-                    🧪 Manitol: Diurético osmótico | Dose: 0.25-1 g/kg | Apresentação: 20% (200mg/mL)
+                    Manitol - Diurético osmótico | Dose: 0.25-1 g/kg | Apresentação: 20% ou 200mg/mL
                 </div>
+
                 <div class="section-grid">
                     <div class="card">
-                        <div class="card-title">🧪 Cálculo Manitol</div>
+                        <div class="card-title">Cálculo Manitol</div>
                         <div class="input-group">
                             <label>Peso (kg)</label>
                             <input type="number" id="pesoManitol" placeholder="70" step="0.1">
                         </div>
                         <div class="input-group">
-                            <label>Dose (g/kg) [0.25-1]</label>
+                            <label>Dose (g/kg) - 0.25-1</label>
                             <input type="number" id="doseManitol" placeholder="0.5" min="0.25" max="1" step="0.25">
                         </div>
                         <div class="button-group">
                             <button class="btn btn-primary" onclick="calcularManitol()">Calcular</button>
                         </div>
                     </div>
+
                     <div class="card">
-                        <div class="card-title">🧪 Resultado</div>
+                        <div class="card-title">Resultado</div>
                         <div class="results-container">
                             <div class="result-box">
                                 <div class="result-item">
@@ -631,7 +772,7 @@
                                 </div>
                                 <div class="result-item">
                                     <span class="result-label">Apresentação</span>
-                                    <span class="result-value">20% (200mg/mL)</span>
+                                    <span class="result-value">20% ou 200mg/mL</span>
                                 </div>
                             </div>
                         </div>
@@ -639,15 +780,15 @@
                 </div>
 
                 <div class="card" style="margin-top: 30px;">
-                    <div class="card-title">📋 Ajuste de Dose</div>
+                    <div class="card-title">Ajuste de Dose</div>
                     <div class="results-container">
                         <div class="result-box">
                             <div style="padding: 15px; background: rgba(20,184,166,0.1); border-radius: 8px; color: var(--text-secondary); font-size: 0.9em; line-height: 1.8;">
-                                <strong>🔴 Insuficiência Renal:</strong><br>
+                                <strong>Insuficiência Renal:</strong><br>
                                 Contraindicado na insuficiência renal grave. Utilizar com cautela em pacientes com injúria renal.<br><br>
-                                <strong>🟡 Insuficiência Hepática:</strong><br>
-                                Não é necessário ajuste de dose.<br><br>
-                                <strong>🔵 Hemodiálise:</strong><br>
+                                <strong>Insuficiência Hepática:</strong><br>
+                                Não necessário ajuste de dose.<br><br>
+                                <strong>Hemodiálise:</strong><br>
                                 Não foram encontrados informações sobre ajuste de dose para pacientes em hemodiálise.
                             </div>
                         </div>
@@ -655,24 +796,27 @@
                 </div>
             </div>
 
-            <!-- ELETROLITOS (SEM BICARBONATO) -->
+            <!-- ELETRÓLITOS -->
             <div id="eletrolitos" class="section">
                 <div class="info-box">
-                    ⚡ Correção de Eletrolitos: Insira valores ATUAIS e ALVO desejado
+                    <strong>Protocolos Validados em Cirurgia Cardíaca com CEC</strong><br>
+                    Baseado em TIGHT-K Trial 2024, Polderman et al., EACTS 2024 e estudos multicêntricos
                 </div>
+
                 <div class="section-grid">
                     <div class="card">
-                        <div class="card-title">⚡ Correção Eletrolitos</div>
+                        <div class="card-title">Correção Eletrólitos</div>
                         <div class="input-group">
                             <label>Peso (kg)</label>
                             <input type="number" id="pesoEletro" placeholder="70" step="0.1">
                         </div>
                         <div class="input-group">
                             <label>Selecione o Eletrólito</label>
-                            <select id="selectEletro">
-                                <option value="calcio">Cálcio Gluconato 10%</option>
-                                <option value="potassio">Potássio (KCl)</option>
-                                <option value="magnesio">Magnésio (MgSO4)</option>
+                            <select id="selectEletro" onchange="atualizarEletrolidoSelecionado()">
+                                <option value="potassio">Potássio - KCl (TIGHT-K 2024)</option>
+                                <option value="magnesio">Magnésio - MgSO₄ (Polderman 2003)</option>
+                                <option value="calcio">Cálcio - Gluconato 10% (EACTS 2024)</option>
+                                <option value="fosfato">Fósforo - NaH₂PO₄ (Nova Opção)</option>
                             </select>
                         </div>
                         <div class="input-row">
@@ -689,8 +833,9 @@
                             <button class="btn btn-primary" onclick="calcularEletrolito()">Calcular</button>
                         </div>
                     </div>
+
                     <div class="card">
-                        <div class="card-title">⚡ Resultado</div>
+                        <div class="card-title">Resultado</div>
                         <div class="results-container">
                             <div class="result-box">
                                 <div class="result-item">
@@ -706,8 +851,93 @@
                                     <span class="result-value" id="doseEletro">-- mL</span>
                                 </div>
                                 <div class="result-item">
-                                    <span class="result-label">Diluição Recomendada</span>
-                                    <span class="result-value" id="diluicaoEletro">--</span>
+                                    <span class="result-label">Via de Administração</span>
+                                    <span class="result-value" id="viaEletro">--</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Frequência de Monitoramento</span>
+                                    <span class="result-value" id="monitorEletro">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-grid" style="margin-top: 30px;">
+                    <div class="card">
+                        <div class="card-title">Valores de Referência Validados</div>
+                        <div class="results-container">
+                            <div class="result-box">
+                                <div class="result-item">
+                                    <span class="result-label"><strong>Potássio</strong></span>
+                                    <span class="result-value">--</span>
+                                </div>
+                                <div style="padding: 12px; background: rgba(20,184,166,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em; line-height: 1.6;">
+                                    Normal: 3.5-5.0 mEq/L<br>
+                                    <strong>Suplementar: &lt; 3.6 mEq/L</strong> (TIGHT-K 2024)<br>
+                                    Target intraop: 4.0-5.0 mEq/L
+                                </div>
+
+                                <div class="result-item">
+                                    <span class="result-label"><strong>Magnésio</strong></span>
+                                    <span class="result-value">--</span>
+                                </div>
+                                <div style="padding: 12px; background: rgba(20,184,166,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em; line-height: 1.6;">
+                                    Normal: 1.7-2.2 mg/dL<br>
+                                    <strong>Suplementar: &lt; 1.7 mg/dL</strong><br>
+                                    Target intraop: &gt; 2.0 mEq/L (prevenção arritmia)
+                                </div>
+
+                                <div class="result-item">
+                                    <span class="result-label"><strong>Cálcio Ionizado</strong></span>
+                                    <span class="result-value">--</span>
+                                </div>
+                                <div style="padding: 12px; background: rgba(20,184,166,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em; line-height: 1.6;">
+                                    Normal: 1.1-1.4 mmol/L<br>
+                                    <strong>Suplementar: &lt; 1.1 mmol/L (sintomático)</strong><br>
+                                    Target intraop: &gt; 1.1 mmol/L
+                                </div>
+
+                                <div class="result-item">
+                                    <span class="result-label"><strong>Fósforo</strong></span>
+                                    <span class="result-value">--</span>
+                                </div>
+                                <div style="padding: 12px; background: rgba(20,184,166,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em; line-height: 1.6;">
+                                    Normal: 0.8-1.2 mmol/L<br>
+                                    <strong>Suplementar: &lt; 0.8 mmol/L</strong> (déficit em 88% pós-CEC)<br>
+                                    Frequentemente omitido!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Indicações Clínicas</div>
+                        <div class="results-container">
+                            <div class="result-box">
+                                <div style="padding: 15px; background: rgba(245, 158, 11, 0.15); border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #f59e0b;">
+                                    <strong>Potássio:</strong><br>
+                                    • Arritmias supraventriculares<br>
+                                    • Resposta ventricular rápida<br>
+                                    • ECG: depressão ST, onda T plana
+                                </div>
+                                <div style="padding: 15px; background: rgba(16, 185, 129, 0.15); border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #10b981;">
+                                    <strong>Magnésio:</strong><br>
+                                    • Prevenção de arritmias intraoperatórias<br>
+                                    • Proteção isquêmica miocárdica<br>
+                                    • Dose: 1-2g a cada 4-6h conforme necessário
+                                </div>
+                                <div style="padding: 15px; background: rgba(59, 130, 246, 0.15); border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #3b82f6;">
+                                    <strong>Cálcio:</strong><br>
+                                    • Weaning de CEC com baixa contractilidade<br>
+                                    • NUNCA em veia periférica<br>
+                                    • Efeito transiente &lt;10 min
+                                </div>
+                                <div style="padding: 15px; background: rgba(239, 68, 68, 0.15); border-radius: 8px; border-left: 4px solid #ef4444;">
+                                    <strong>Fósforo:</strong><br>
+                                    • Disfunção miocárdica<br>
+                                    • Fraqueza muscular respiratória<br>
+                                    • Suplementação profilática recomendada
                                 </div>
                             </div>
                         </div>
@@ -715,39 +945,35 @@
                 </div>
 
                 <div class="card" style="margin-top: 30px;">
-                    <div class="card-title">📋 Valores Normais de Referência</div>
+                    <div class="card-title">Referências Científicas</div>
                     <div class="results-container">
                         <div class="result-box">
-                            <div class="result-item">
-                                <span class="result-label">Cálcio Ionizado</span>
-                                <span class="result-value">1.1-1.4 mmol/L (4.5-5.6 mg/dL)</span>
-                            </div>
-                            <div class="result-item">
-                                <span class="result-label">Potássio</span>
-                                <span class="result-value">3.5-5.0 mEq/L</span>
-                            </div>
-                            <div class="result-item">
-                                <span class="result-label">Magnésio</span>
-                                <span class="result-value">1.7-2.2 mg/dL</span>
+                            <div style="padding: 12px; color: var(--text-secondary); font-size: 0.9em; line-height: 1.8;">
+                                <strong>[1]</strong> O'Brien B, et al. TIGHT K Trial. JAMA. 2024;332(10):979-988. DOI: 10.1001/jama.2024.17888<br><br>
+                                <strong>[2]</strong> Polderman KH, et al. Severe electrolyte disorders following cardiac surgery. Critical Care. 2004;8(4):R206-R212<br><br>
+                                <strong>[3]</strong> Engwerda EJ, et al. Efficacy of phosphate replacement strategy. Neth J Med. 2010;68(12):426-431<br><br>
+                                <strong>[4]</strong> EACTS Guidelines. 2024 Perioperative medication in adult cardiac surgery. European Journal of Cardio-Thoracic Surgery<br><br>
+                                <strong>[5]</strong> DeHert SG, et al. Calcium for weaning from cardiopulmonary bypass. Anesthesiology. 2007;107(2):233-243<br><br>
+                                <strong>[6]</strong> Kardos A, et al. Magnesium supplementation during cardiopulmonary bypass. Heart Surg Forum. 2003;6(4):270-275
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- GASOMETRIA (SEM BICARBONATO) -->
+            <!-- GASOMETRIA -->
             <div id="gasometria" class="section">
                 <div class="formula-box">
-                    📐 Parâmetros de Perfusão durante CEC
+                    Parâmetros de Perfusão durante CEC
                 </div>
+
                 <div class="info-box">
-                    🫁 Avaliação Completa de Perfusão: Lactato, pH, pCO2, Hb, SaO2, SvO2, PvCO2 e cálculos derivados
+                    Avaliação Completa de Perfusão: Lactato, pH, pCO₂, Hb, SaO₂, SvO₂, PvCO₂ e cálculos derivados
                 </div>
 
                 <div class="section-grid">
                     <div class="card">
-                        <div class="card-title">🫁 Parâmetros Gasométricos</div>
-                        
+                        <div class="card-title">Parâmetros Gasométricos</div>
                         <div class="input-row-4">
                             <div class="input-group">
                                 <label>Peso (kg)</label>
@@ -762,30 +988,28 @@
                                 <input type="number" id="pH" placeholder="7.40" min="6.8" max="7.8" step="0.01">
                             </div>
                             <div class="input-group">
-                                <label>PaCO2 (mmHg)</label>
+                                <label>PaCO₂ (mmHg)</label>
                                 <input type="number" id="paCO2" placeholder="40" step="1">
                             </div>
                         </div>
-
                         <div class="input-row-4">
                             <div class="input-group">
                                 <label>Hemoglobina (g/dL)</label>
                                 <input type="number" id="hemoglobina" placeholder="12" step="0.1">
                             </div>
                             <div class="input-group">
-                                <label>SaO2 (%)</label>
+                                <label>SaO₂ (%)</label>
                                 <input type="number" id="saO2" placeholder="98" min="0" max="100" step="0.1">
                             </div>
                             <div class="input-group">
-                                <label>SvO2 (%)</label>
+                                <label>SvO₂ (%)</label>
                                 <input type="number" id="svO2" placeholder="74.9" min="0" max="100" step="0.1">
                             </div>
                             <div class="input-group">
-                                <label>PvCO2 (mmHg)</label>
+                                <label>PvCO₂ (mmHg)</label>
                                 <input type="number" id="pvCO2" placeholder="46" step="1">
                             </div>
                         </div>
-
                         <div class="button-group">
                             <button class="btn btn-primary" onclick="calcularGasometria()">Avaliar</button>
                             <button class="btn btn-secondary" onclick="limparGaso()">Limpar</button>
@@ -793,7 +1017,7 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-title">🫁 Análise: Perfusão</div>
+                        <div class="card-title">Análise de Perfusão</div>
                         <div class="analysis-section">
                             <div class="analysis-item">
                                 <span class="analysis-label">Lactato</span>
@@ -804,15 +1028,15 @@
                                 <span class="analysis-value" id="statusPh">--</span>
                             </div>
                             <div class="analysis-item">
-                                <span class="analysis-label">ΔAO2</span>
+                                <span class="analysis-label">ΔaO₂</span>
                                 <span class="analysis-value" id="deltaAO2">--</span>
                             </div>
                             <div class="analysis-item">
-                                <span class="analysis-label">O2ER (%)</span>
+                                <span class="analysis-label">O₂ER (%)</span>
                                 <span class="analysis-value" id="o2ER">--</span>
                             </div>
                             <div class="analysis-item">
-                                <span class="analysis-label">ΔPvCO2 (mmHg)</span>
+                                <span class="analysis-label">PvCO₂ (mmHg)</span>
                                 <span class="analysis-value" id="deltaPvCO2">--</span>
                             </div>
                             <div class="analysis-item">
@@ -820,25 +1044,24 @@
                                 <span class="analysis-value" id="statusHb">--</span>
                             </div>
                         </div>
-                        
                         <div id="statusGaso" class="status-badge"></div>
                     </div>
                 </div>
 
                 <div class="card" style="margin-top: 30px;">
-                    <div class="card-title">📋 Interpretações</div>
+                    <div class="card-title">Interpretações</div>
                     <div class="results-container">
                         <div class="result-box">
                             <div class="result-item">
-                                <span class="result-label">ΔAO2</span>
+                                <span class="result-label">ΔaO₂</span>
                                 <span class="result-value" id="interpDeltaAO2">--</span>
                             </div>
                             <div class="result-item">
-                                <span class="result-label">O2ER</span>
+                                <span class="result-label">O₂ER</span>
                                 <span class="result-value" id="interpO2ER">--</span>
                             </div>
                             <div class="result-item">
-                                <span class="result-label">ΔPvCO2</span>
+                                <span class="result-label">PvCO₂</span>
                                 <span class="result-value" id="interpDeltaPvCO2">--</span>
                             </div>
                         </div>
@@ -846,19 +1069,20 @@
                 </div>
             </div>
 
-            <!-- BICARBONATO - NOVA SEÇÃO -->
+            <!-- BICARBONATO -->
             <div id="bicarbonato" class="section">
                 <div class="formula-box">
-                    📐 Fórmula: Dose = -BE × Peso (kg) × 0.3<br>
-                    ⚠️ Administrar 50% da dose, reavaliar em 1h
+                    Fórmula: Dose (mL) = -BE × Peso (kg) × 0.3<br>
+                    Administrar 50% da dose, reavaliar em 1h
                 </div>
+
                 <div class="info-box">
-                    🔹 Correção de Acidose Metabólica com Bicarbonato Sódio 8.4% (84 mg/mL)
+                    Correção de Acidose Metabólica com Bicarbonato Sódio 8.4% (84 mg/mL)
                 </div>
 
                 <div class="section-grid">
                     <div class="card">
-                        <div class="card-title">🔹 Cálculo Bicarbonato</div>
+                        <div class="card-title">Cálculo Bicarbonato</div>
                         <div class="input-group">
                             <label>Peso (kg)</label>
                             <input type="number" id="pesoBicarbonato" placeholder="70" step="0.1">
@@ -874,7 +1098,7 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-title">🔹 Resultado da Correção</div>
+                        <div class="card-title">Resultado da Correção</div>
                         <div class="results-container">
                             <div class="result-box">
                                 <div class="result-item">
@@ -890,7 +1114,7 @@
                                     <span class="result-value" id="doseTotalBic">-- mL</span>
                                 </div>
                                 <div class="result-item highlight">
-                                    <span class="result-label">💊 DOSE 50% (Usar)</span>
+                                    <span class="result-label">DOSE 50% Usar</span>
                                     <span class="result-value" id="dose50Bic">-- mL</span>
                                 </div>
                                 <div class="result-item">
@@ -902,25 +1126,25 @@
                                     <span class="result-value">IV lento no reservatório</span>
                                 </div>
                             </div>
-                            <div id="statusBic" class="status-badge"></div>
                         </div>
+                        <div id="statusBic" class="status-badge"></div>
                     </div>
                 </div>
 
                 <div class="card" style="margin-top: 30px;">
-                    <div class="card-title">📋 Informações Importantes</div>
+                    <div class="card-title">Informações Importantes</div>
                     <div class="results-container">
                         <div class="result-box">
                             <div style="padding: 15px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; margin-bottom: 15px; color: var(--text-secondary);">
-                                <strong>ℹ️ Como Usar:</strong><br>
-                                1. Inserir peso e Base Excess negativo (acidose)<br>
+                                <strong>Como Usar:</strong><br>
+                                1. Inserir peso e Base Excess (negativo para acidose)<br>
                                 2. Sistema calcula dose total<br>
                                 3. <strong>Usar apenas 50% da dose</strong><br>
                                 4. Administrar IV lentamente no reservatório<br>
                                 5. Reavaliar gasometria em 1 hora
                             </div>
                             <div style="padding: 15px; background: rgba(239, 68, 68, 0.15); border-radius: 8px; color: #fca5a5;">
-                                <strong>⚠️ Aviso:</strong><br>
+                                <strong>Avisos:</strong><br>
                                 Bicarbonato é uma base forte - administrar sempre com cuidado. Nunca infundir em veia periférica sem verificação.
                             </div>
                         </div>
@@ -931,11 +1155,12 @@
             <!-- CÂNULAS -->
             <div id="canulas" class="section">
                 <div class="info-box">
-                    🩺 Recomendação Completa de Cânulas: Arterial e Venosa (VCS/VCI) baseada no peso do paciente
+                    Recomendação Completa de Cânulas Arterial e Venosa (VCS/VCI) baseada no peso do paciente
                 </div>
+
                 <div class="section-grid">
                     <div class="card">
-                        <div class="card-title">🩺 Dados do Paciente</div>
+                        <div class="card-title">Dados do Paciente</div>
                         <div class="input-group">
                             <label>Peso (kg)</label>
                             <input type="number" id="pesoCanula" placeholder="70" step="0.1">
@@ -945,11 +1170,12 @@
                             <input type="number" id="fluxoMedidoCanula" placeholder="Deixe em branco para usar peso" step="10">
                         </div>
                         <div class="button-group">
-                            <button class="btn btn-primary" onclick="calcularCanulas()" style="flex: 1;">Recomendar Cânulas</button>
+                            <button class="btn btn-primary" onclick="calcularCanulas()" style="flex: 1">Recomendar Cânulas</button>
                         </div>
                     </div>
+
                     <div class="card">
-                        <div class="card-title">🩺 Resultado</div>
+                        <div class="card-title">Resultado</div>
                         <div class="results-container">
                             <div class="result-box">
                                 <div class="result-item">
@@ -967,7 +1193,7 @@
 
                 <div class="section-grid">
                     <div class="card">
-                        <div class="card-title">🔴 Cânula Arterial</div>
+                        <div class="card-title">Cânula Arterial</div>
                         <div class="results-container">
                             <div class="result-box">
                                 <div class="result-item highlight">
@@ -983,15 +1209,15 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-title">🔵 Cânulas Venosas</div>
+                        <div class="card-title">Cânulas Venosas</div>
                         <div class="results-container">
                             <div class="result-box">
                                 <div class="result-item">
-                                    <span class="result-label">VCS (Veia Cava Superior)</span>
+                                    <span class="result-label">VCS - Veia Cava Superior</span>
                                     <span class="result-value" id="canulaVCS">-- F</span>
                                 </div>
                                 <div class="result-item highlight">
-                                    <span class="result-label">VCI (Veia Cava Inferior)</span>
+                                    <span class="result-label">VCI - Veia Cava Inferior</span>
                                     <span class="result-value" id="canulaVCI">-- F</span>
                                 </div>
                             </div>
@@ -1000,7 +1226,7 @@
                 </div>
 
                 <div class="card" style="margin-top: 30px;">
-                    <div class="card-title">📊 Tabela Referência - Cânulas por Faixa de Peso</div>
+                    <div class="card-title">Tabela Referência - Cânulas por Faixa de Peso</div>
                     <div class="results-container" style="font-size: 0.9em;">
                         <div class="result-box">
                             <div style="overflow-x: auto;">
@@ -1016,31 +1242,31 @@
                                     <tbody>
                                         <tr style="border-bottom: 1px solid rgba(20,184,166,0.2);">
                                             <td style="padding: 10px;">1-5</td>
-                                            <td style="padding: 10px;">08F - 500mL</td>
+                                            <td style="padding: 10px;">08F - 500 mL</td>
                                             <td style="padding: 10px;">12F</td>
                                             <td style="padding: 10px;">12F</td>
                                         </tr>
                                         <tr style="border-bottom: 1px solid rgba(20,184,166,0.2);">
                                             <td style="padding: 10px;">6-15</td>
-                                            <td style="padding: 10px;">08-10F - 1100mL</td>
+                                            <td style="padding: 10px;">08-10F - 1100 mL</td>
                                             <td style="padding: 10px;">12F</td>
                                             <td style="padding: 10px;">16F</td>
                                         </tr>
                                         <tr style="border-bottom: 1px solid rgba(20,184,166,0.2);">
                                             <td style="padding: 10px;">16-40</td>
-                                            <td style="padding: 10px;">12-14F - 2500mL</td>
+                                            <td style="padding: 10px;">12-14F - 2500 mL</td>
                                             <td style="padding: 10px;">16F</td>
                                             <td style="padding: 10px;">20F</td>
                                         </tr>
                                         <tr style="border-bottom: 1px solid rgba(20,184,166,0.2);">
                                             <td style="padding: 10px;">40-70</td>
-                                            <td style="padding: 10px;">18F - 3800mL</td>
+                                            <td style="padding: 10px;">18F - 3800 mL</td>
                                             <td style="padding: 10px;">24F</td>
                                             <td style="padding: 10px;">28F</td>
                                         </tr>
                                         <tr>
-                                            <td style="padding: 10px;">70+</td>
-                                            <td style="padding: 10px;">20-22F - 5800mL</td>
+                                            <td style="padding: 10px;">&gt;70</td>
+                                            <td style="padding: 10px;">20-22F - 5800 mL</td>
                                             <td style="padding: 10px;">34F</td>
                                             <td style="padding: 10px;">36F</td>
                                         </tr>
@@ -1054,49 +1280,416 @@
 
             <!-- DROGAS VASOATIVAS -->
             <div id="drogas" class="section">
-                <div class="card" style="grid-column: 1 / -1;">
-                    <div class="card-title">💉 Drogas Vasoativas - Informações</div>
+                <div class="info-box">
+                    <strong>Protocolos Validados de Drogas Vasoativas em Cirurgia Cardíaca com CEC</strong><br>
+                    Baseado em Stanford Cardiac Anesthesia, EACTS 2024 e guidelines internacionais de perioperatório
+                </div>
+
+                <div class="card" style="grid-column: 1 / -1; margin-bottom: 30px;">
+                    <div class="card-title">Vasopressores - Aumento de PAM e SVR</div>
                     <div class="results-container">
                         <div class="result-box">
                             <div class="result-item">
-                                <span class="result-label"><strong>🔹 ARAMIN (Metaraminol)</strong></span>
-                                <span class="result-value">--</span>
+                                <span class="result-label"><strong>ARAMIN (Metaraminol) - α1 + β1</strong></span>
+                                <span class="result-value">Início: 1-2 min</span>
                             </div>
-                            <div style="padding: 12px; background: rgba(20,184,166,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em;">
-                                • Apresentação: 10 mg/10mL<br>
-                                • Preparo: 10mL Aramin + 10mL AD = 20mL (1mg/mL)<br>
-                                • Bolus: 1.5mL<br>
-                                • Via: Reservatório CEC - Imediato
-                            </div>
-                        </div>
-                    </div>
-                    <div class="results-container" style="margin-top: 20px;">
-                        <div class="result-box">
-                            <div class="result-item">
-                                <span class="result-label"><strong>🔹 NIPRIDE (Nitroprussiato)</strong></span>
-                                <span class="result-value">--</span>
-                            </div>
-                            <div style="padding: 12px; background: rgba(20,184,166,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em;">
-                                • Apresentação: 50 mg/5mL<br>
-                                • Preparo: 5mL Nipride + 95mL SG5% = 100mL (0.5mg/mL)<br>
-                                • Bolus: 0.5-1.0mL<br>
-                                • Via: Reservatório CEC - 1-2 min LENTO<br>
-                                ⚠️ Proteger da luz (papel alumínio)
+                            <div style="padding: 15px; background: rgba(20,184,166,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em; border-left: 4px solid #14b8a6;">
+                                <strong>Apresentação:</strong> 10 mg/10mL (ampola)<br><br>
+                                <strong>Bolus:</strong> 0.5-1 mg (1-2mL) IV<br>
+                                &nbsp;&nbsp;• Via: Reservatório CEC ou SVP<br>
+                                &nbsp;&nbsp;• Tempo: Imediato<br>
+                                &nbsp;&nbsp;• Efeito: 20-60 min<br><br>
+                                <strong>Infusão Contínua:</strong> 0.5-10 mg/h ou até 0.3 mg/kg/h<br>
+                                &nbsp;&nbsp;• Preparo: 10mL Aramin + 10mL AD = 20mL (1mg/mL)<br>
+                                &nbsp;&nbsp;• Via: CVC preferencial<br>
+                                &nbsp;&nbsp;• Titulação: Conforme PAM alvo<br><br>
+                                <strong>Indicações:</strong> Hipotensão intraoperatória, suporte após weaning CEC
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="card" style="grid-column: 1 / -1; margin-bottom: 30px;">
+                    <div class="card-title">Vasodiladores - Redução de PAM e SVR</div>
+                    <div class="results-container">
+                        <div class="result-box">
+                            <div class="result-item">
+                                <span class="result-label"><strong>NIPRIDE (Nitroprussiato de Sódio)</strong></span>
+                                <span class="result-value">Início: &lt;1 min</span>
+                            </div>
+                            <div style="padding: 15px; background: rgba(245,158,11,0.15); border-radius: 8px; margin: 8px 0; font-size: 0.9em; border-left: 4px solid #f59e0b;">
+                                <strong>Apresentação:</strong> 50 mg/5mL (ampola)<br><br>
+                                <strong>Bolus:</strong> 10-20 mcg IV lento<br>
+                                &nbsp;&nbsp;• Via: Reservatório CEC - 1-2 min LENTO<br>
+                                &nbsp;&nbsp;• Preparo: 1mL (50mg) Nipride + 99mL SG5% = 100mL (0.5mg/mL)<br><br>
+                                <strong>Infusão Contínua:</strong> 0.1-2 mcg/kg/min<br>
+                                &nbsp;&nbsp;• Preparo: 5mL Nipride + 95mL SG5% = 100mL (0.5mg/mL)<br>
+                                &nbsp;&nbsp;• Via: CVC obrigatório<br>
+                                &nbsp;&nbsp;• ⚠️ CRÍTICO: Proteger da luz com papel alumínio<br>
+                                &nbsp;&nbsp;• Duração: Máximo 24-48h (risco de toxicidade)<br><br>
+                                <strong>Indicações:</strong> Redução de pós-carga, controle hipertensão, vasodilatação periférica<br>
+                                <strong>⚠️ Cuidados:</strong> Monitorar lactato, cianeto, tiocianato em uso prolongado
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="grid-column: 1 / -1; margin-bottom: 30px;">
+                    <div class="card-title">Vasodilatadores - Redução de Pré-carga</div>
+                    <div class="results-container">
+                        <div class="result-box">
+                            <div class="result-item">
+                                <span class="result-label"><strong>TRIDIL (Nitroglicerina IV)</strong></span>
+                                <span class="result-value">Início: 2-3 min</span>
+                            </div>
+                            <div style="padding: 15px; background: rgba(59,130,246,0.15); border-radius: 8px; margin: 8px 0; font-size: 0.9em; border-left: 4px solid #3b82f6;">
+                                <strong>Apresentação:</strong> 10 mg/1mL (ampola ou frasco)<br><br>
+                                <strong>Bolus:</strong> 50-100 mcg IV lento (raramente usado)<br>
+                                &nbsp;&nbsp;• Via: SVP em emergência, preferir CVC<br><br>
+                                <strong>Infusão Contínua:</strong> 0.2-2 mcg/kg/min (75-150 mcg/min típico)<br>
+                                &nbsp;&nbsp;• Preparo: 1mL Tridil + 90mL SG5% = 100mL (0.1mg/mL)<br>
+                                &nbsp;&nbsp;• Via: CVC obrigatório (ou SVP em emergência)<br>
+                                &nbsp;&nbsp;• Tempo: Administração 1-2 min LENTO<br>
+                                &nbsp;&nbsp;• ⚠️ CRÍTICO: Proteger da luz com papel alumínio<br>
+                                &nbsp;&nbsp;• Duração: 5-10 min após descontinuação<br><br>
+                                <strong>Indicações:</strong> Isquemia miocárdica, redução pós-carga, controle PAM<br>
+                                <strong>Tolerância:</strong> Pode ocorrer após 24-48h de infusão contínua (pausar 12h para recuperação)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="grid-column: 1 / -1; margin-bottom: 30px;">
+                    <div class="card-title">Catecolaminas - Inotropia e Vasopressão</div>
+                    <div class="results-container">
+                        <div class="result-box">
+                            <div class="result-item">
+                                <span class="result-label"><strong>EPINEFRINA (Adrenalina) - α + β</strong></span>
+                                <span class="result-value">Início: &lt;1 min</span>
+                            </div>
+                            <div style="padding: 15px; background: rgba(239,68,68,0.15); border-radius: 8px; margin: 8px 0; font-size: 0.9em; border-left: 4px solid #ef4444;">
+                                <strong>Apresentação:</strong> 1 mg/1mL (ampola) = 1:1000<br><br>
+                                <strong>Bolus:</strong> 5-10 mcg IV direto<br>
+                                &nbsp;&nbsp;• Via: Reservatório CEC ou SVP em emergência<br>
+                                &nbsp;&nbsp;• Preparo bolus: 1mL Epi + 9mL SF = 10mL (100 mcg/mL) em seringa<br><br>
+                                <strong>Infusão Contínua:</strong> 0.01-0.15 mcg/kg/min (máximo 0.15)<br>
+                                &nbsp;&nbsp;• Preparo: 1mL Epi + 99mL SF = 100mL (10 mcg/mL)<br>
+                                &nbsp;&nbsp;• Via: CVC obrigatório<br>
+                                &nbsp;&nbsp;• Titulação: Aumentar 2.5-5 mcg/min até efeito<br>
+                                &nbsp;&nbsp;• Duração: 5-10 min<br><br>
+                                <strong>Indicações:</strong> Parada cardíaca, choque cardiogênico severo, weaning com baixa contractilidade<br>
+                                <strong>⚠️ Cuidados:</strong> Risco de arritmias em altas doses, taquicardia reflexa
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="results-container" style="margin-top: 20px;">
                         <div class="result-box">
                             <div class="result-item">
-                                <span class="result-label"><strong>🔹 TRIDIL (Nitroglicerina)</strong></span>
-                                <span class="result-value">--</span>
+                                <span class="result-label"><strong>NOREPINEFRINA (Levophed) - α &gt;&gt; β</strong></span>
+                                <span class="result-value">Início: &lt;1 min</span>
                             </div>
-                            <div style="padding: 12px; background: rgba(20,184,166,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em;">
-                                • Apresentação: 10 mg/1mL<br>
-                                • Preparo: 1mL Tridil + 90mL SG5% = 100mL (0.1mg/mL)<br>
-                                • Bolus: 0.1-0.2mL<br>
-                                • Via: Reservatório CEC - 1-2 min LENTO<br>
-                                ⚠️ Proteger da luz (papel alumínio)
+                            <div style="padding: 15px; background: rgba(16,185,129,0.15); border-radius: 8px; margin: 8px 0; font-size: 0.9em; border-left: 4px solid #10b981;">
+                                <strong>Apresentação:</strong> 1 mg/1mL (ampola) = 1:1000<br><br>
+                                <strong>Bolus:</strong> 4-8 mcg IV<br>
+                                &nbsp;&nbsp;• Via: SVP em emergência<br>
+                                &nbsp;&nbsp;• Preparo: 1mL Norepi + 9mL SF = 10mL (100 mcg/mL) em seringa<br><br>
+                                <strong>Infusão Contínua:</strong> 0.02-0.1 mcg/kg/min (1-10 mcg/min típico)<br>
+                                &nbsp;&nbsp;• Preparo: 1mL Norepi + 99mL SF = 100mL (10 mcg/mL)<br>
+                                &nbsp;&nbsp;• Via: CVC OBRIGATÓRIO (risco de necrose em periferia)<br>
+                                &nbsp;&nbsp;• Titulação: Aumentar 2.5-5 mcg/min até PAM ≥65 mmHg<br>
+                                &nbsp;&nbsp;• Duração: 2-5 min<br><br>
+                                <strong>Indicações:</strong> Primeira linha para hipotensão em CEC, sepse, choque distributivo<br>
+                                <strong>Vantagens:</strong> Melhor preservação de perfusão renal/cerebral vs outros vasopressores
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="grid-column: 1 / -1; margin-bottom: 30px;">
+                    <div class="card-title">Agentes Seletivos - Inotropia Pura</div>
+                    <div class="results-container">
+                        <div class="result-box">
+                            <div class="result-item">
+                                <span class="result-label"><strong>MILRINONA (Inodilador) - β + Vasodilatador</strong></span>
+                                <span class="result-value">Início: 5-15 min</span>
+                            </div>
+                            <div style="padding: 15px; background: rgba(168,75,47,0.15); border-radius: 8px; margin: 8px 0; font-size: 0.9em; border-left: 4px solid #a84b2f;">
+                                <strong>Apresentação:</strong> 10 mg/10mL (ampola ou vial)<br><br>
+                                <strong>Bolus (opcional):</strong> 50 mcg/kg lento em 7-15 min<br>
+                                &nbsp;&nbsp;• Preparo: 10mL Milrinona + 40mL SF = 50mL (0.2mg/mL)<br>
+                                &nbsp;&nbsp;• Via: CVC em seringa ou bomba<br><br>
+                                <strong>Infusão Contínua:</strong> 0.1-0.4 mcg/kg/min (máximo recomendado: 0.75 mcg/kg/min)<br>
+                                &nbsp;&nbsp;• Preparo: 10mL Milrinona + 40mL SF = 50mL (0.2mg/mL)<br>
+                                &nbsp;&nbsp;• Via: CVC OBRIGATÓRIO<br>
+                                &nbsp;&nbsp;• Titulação: Conforme resposta cardíaca<br>
+                                &nbsp;&nbsp;• Duração: 30-60 min após descontinuação<br><br>
+                                <strong>Indicações:</strong> Weaning de CEC com reduzida contractilidade, insuficiência cardíaca diastólica<br>
+                                <strong>Vantagens:</strong> Não aumenta demanda miocárdica (diferente de catecolaminas)<br>
+                                <strong>⚠️ Cuidados:</strong> Pode causar hipotensão (associar com vasopressor se necessário)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="grid-column: 1 / -1;">
+                    <div class="card-title">Resumo de Espaço Vascular e Escolha de Droga</div>
+                    <div class="results-container">
+                        <div class="result-box">
+                            <div class="result-item">
+                                <span class="result-label" style="color: #10b981;"><strong>BAIXA PAM + NORMAL SVR</strong></span>
+                                <span class="result-value" style="color: #10b981;">→ Vasopressor (Aramin/Norepi)</span>
+                            </div>
+                            <div class="result-item" style="background: rgba(16,185,129,0.2); padding: 12px; border-radius: 8px; margin: 8px 0;">
+                                Primeira linha: NOREPINEFRINA 0.02-0.1 mcg/kg/min<br>
+                                Segunda linha: ARAMIN 0.5-10 mg/h
+                            </div>
+
+                            <div class="result-item">
+                                <span class="result-label" style="color: #f59e0b;"><strong>BAIXA PAM + BAIXA SVR (Vasodilatação)</strong></span>
+                                <span class="result-value" style="color: #f59e0b;">→ Vasopressor + Inótropo</span>
+                            </div>
+                            <div class="result-item" style="background: rgba(245,158,11,0.2); padding: 12px; border-radius: 8px; margin: 8px 0;">
+                                Norepi 0.02-0.1 mcg/kg/min + Milrinona 0.1-0.4 mcg/kg/min<br>
+                                OU Epinefrina 0.01-0.15 mcg/kg/min se contractilidade baixa
+                            </div>
+
+                            <div class="result-item">
+                                <span class="result-label" style="color: #3b82f6;"><strong>ALTA PAM + ALTA SVR</strong></span>
+                                <span class="result-value" style="color: #3b82f6;">→ Vasodilatador</span>
+                            </div>
+                            <div class="result-item" style="background: rgba(59,130,246,0.2); padding: 12px; border-radius: 8px; margin: 8px 0;">
+                                Nitroprussiato 0.1-2 mcg/kg/min (máx 24-48h)<br>
+                                OU Nitroglicerina 0.2-2 mcg/kg/min
+                            </div>
+
+                            <div class="result-item">
+                                <span class="result-label" style="color: #ef4444;"><strong>PARADA CARDÍACA / CHOQUE SEVERO</strong></span>
+                                <span class="result-value" style="color: #ef4444;">→ Epinefrina IM/IV</span>
+                            </div>
+                            <div class="result-item" style="background: rgba(239,68,68,0.2); padding: 12px; border-radius: 8px; margin: 8px 0;">
+                                Bolus: 5-10 mcg IV (reservatório CEC)<br>
+                                Depois: Infusão 0.01-0.15 mcg/kg/min
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="grid-column: 1 / -1; margin-top: 20px;">
+                    <div class="card-title">Referências Científicas e Protocolos</div>
+                    <div class="results-container">
+                        <div class="result-box">
+                            <div style="padding: 12px; color: var(--text-secondary); font-size: 0.9em; line-height: 1.8;">
+                                <strong>[1]</strong> Stanford Cardiac Anesthesia. Dosing and Dilution of Perioperative Vasoactives. Stanford School of Medicine, 2024<br><br>
+                                <strong>[2]</strong> Engelman DT, et al. Guidelines for Perioperative Care in Cardiac Surgery. JAMA Surgery. 2019;154(8):1-45<br><br>
+                                <strong>[3]</strong> EACTS Guidelines. 2024 Perioperative Medication and Hemodynamic Support in Adult Cardiac Surgery. European Journal of Cardio-Thoracic Surgery<br><br>
+                                <strong>[4]</strong> Vail EA, et al. Use of Vasoactive Medications after Cardiac Surgery. Journal of Thoracic and Cardiovascular Surgery. 2021;161(1):16-25<br><br>
+                                <strong>[5]</strong> Safe Care Victoria. Standardised Inotrope and Vasopressor Guidelines. Australasian Society of Cardiac and Thoracic Surgeons, 2019<br><br>
+                                <strong>[6]</strong> Grauslyte L, et al. The Use of Metaraminol as a Vasopressor in Critically Unwell Patients. Critical Care. 2022;26(8):265<br><br>
+                                <strong>[7]</strong> Surviving Sepsis Campaign Guidelines. Vasopressors and Inotropes in Shock. Critical Care Medicine. 2021;49(11):e1106-e1135
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BALANÇO HÍDRICO -->
+            <div id="balancoHidrico" class="section">
+                <div class="info-box">
+                    <strong>Balanço Hídrico Intraoperatório em Cirurgia Cardíaca com CEC</strong><br>
+                    Cálculo direto de entrada vs saída para monitoramento em tempo real. Alvo: +500 a +1500 mL (balanço positivo moderado)
+                </div>
+
+                <div class="section-grid">
+                    <div class="card">
+                        <div class="card-title">ENTRADAS (mL)</div>
+                        <div class="input-group">
+                            <label>Cristalóide Primário (RL, SF)</label>
+                            <input type="number" id="cristaloidePrimario" placeholder="0" step="50">
+                        </div>
+                        <div class="input-group">
+                            <label>Concentrado de Hemácias (unidades de 250mL)</label>
+                            <input type="number" id="hemacias" placeholder="0" step="250" value="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Plasma Fresco Congelado (mL)</label>
+                            <input type="number" id="pfc" placeholder="0" step="50">
+                        </div>
+                        <div class="input-group">
+                            <label>Plaquetas (mL)</label>
+                            <input type="number" id="plaquetas" placeholder="0" step="50">
+                        </div>
+                        <div class="input-group">
+                            <label>Albumina/Coloides (mL)</label>
+                            <input type="number" id="albumina" placeholder="0" step="50">
+                        </div>
+                        <div class="input-group">
+                            <label>Medicações/Flushes/Priming (mL)</label>
+                            <input type="number" id="medicacoes" placeholder="0" step="10">
+                        </div>
+                        <div class="input-group">
+                            <label>Outros (mL)</label>
+                            <input type="number" id="outrosEntrada" placeholder="0" step="50">
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">SAÍDAS (mL)</div>
+                        <div class="input-group">
+                            <label>Diurese/Urina (mL)</label>
+                            <input type="number" id="diurese" placeholder="0" step="50">
+                        </div>
+                        <div class="input-group">
+                            <label>Perda Sanguínea Estimada (mL)</label>
+                            <input type="number" id="perdaSanguinea" placeholder="0" step="50">
+                        </div>
+                        <div class="input-group">
+                            <label>Drenagem Mediastinal (mL)</label>
+                            <input type="number" id="drenamemedio" placeholder="0" step="50">
+                        </div>
+                        <div class="input-group">
+                            <label>Perda Insensível (respir. + pele) (mL)</label>
+                            <input type="number" id="perdalfinsensivel" placeholder="0" step="10">
+                        </div>
+                        <div class="input-group">
+                            <label>Hemofiltração/Ultrafiltração (mL)</label>
+                            <input type="number" id="hemofilt" placeholder="0" step="50">
+                        </div>
+                        <div class="input-group">
+                            <label>Outros (mL)</label>
+                            <input type="number" id="outrosSaida" placeholder="0" step="50">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-grid" style="margin-top: 30px;">
+                    <div class="card">
+                        <div class="card-title">Cálculo do Balanço</div>
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="calcularBalancoHidrico()">CALCULAR BALANÇO</button>
+                            <button class="btn btn-secondary" onclick="limparBalanco()">Limpar</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Resultado do Balanço Hídrico</div>
+                        <div class="results-container">
+                            <div class="result-box">
+                                <div class="result-item">
+                                    <span class="result-label">Total de Entradas</span>
+                                    <span class="result-value" id="totalEntrada">-- mL</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Total de Saídas</span>
+                                    <span class="result-value" id="totalSaida">-- mL</span>
+                                </div>
+                                <div class="result-item highlight">
+                                    <span class="result-label">BALANÇO HÍDRICO</span>
+                                    <span class="result-value" id="balancoFinal">-- mL</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Status</span>
+                                    <span class="result-value" id="statusBalanco">--</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="statusBalancoAlerta" class="status-badge"></div>
+                    </div>
+                </div>
+
+                <div class="section-grid" style="margin-top: 30px;">
+                    <div class="card">
+                        <div class="card-title">Tabela de Referência - Valores Típicos</div>
+                        <div class="results-container">
+                            <div class="result-box">
+                                <div class="result-item">
+                                    <span class="result-label"><strong>Balanço Positivo Moderado</strong></span>
+                                    <span class="result-value">+500 a +1500 mL</span>
+                                </div>
+                                <div style="padding: 12px; background: rgba(16,185,129,0.1); border-radius: 8px; margin: 8px 0; font-size: 0.9em; color: var(--text-secondary);">
+                                    ✓ Faixa segura e esperada<br>
+                                    • Compensa perdas na CEC<br>
+                                    • Mantém pré-carga adequada<br>
+                                    • Reduz risco de hipotensão
+                                </div>
+
+                                <div class="result-item">
+                                    <span class="result-label"><strong>Balanço Excessivo</strong></span>
+                                    <span class="result-value">&gt; 2000 mL</span>
+                                </div>
+                                <div style="padding: 12px; background: rgba(245,158,11,0.15); border-radius: 8px; margin: 8px 0; font-size: 0.9em; color: var(--text-secondary);">
+                                    ⚠ Requer atenção:<br>
+                                    • Risco de edema pulmonar<br>
+                                    • Aumento de SVR<br>
+                                    • Considerar hemofiltração
+                                </div>
+
+                                <div class="result-item">
+                                    <span class="result-label"><strong>Balanço Negativo</strong></span>
+                                    <span class="result-value">&lt; 0 mL</span>
+                                </div>
+                                <div style="padding: 12px; background: rgba(239,68,68,0.15); border-radius: 8px; margin: 8px 0; font-size: 0.9em; color: var(--text-secondary);">
+                                    ❌ Crítico:<br>
+                                    • Risco de hipotensão severa<br>
+                                    • Aumento de lactato<br>
+                                    • Comprometimento de perfusão<br>
+                                    • Aumentar reposição imediata
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Dicas Práticas do Perfusionista</div>
+                        <div class="results-container">
+                            <div class="result-box">
+                                <div style="padding: 15px; background: rgba(59,130,246,0.15); border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #3b82f6;">
+                                    <strong>Entrada de Fluidos:</strong><br>
+                                    • Anotar TODOS os fluidos: cristaloides, sangue, medicações<br>
+                                    • Priming CEC: ~1500-2000 mL (varia conforme circuito)<br>
+                                    • Bolus de drogas vasoativas + flushes conta!<br>
+                                    • Volume residual após weaning: não esquecer
+                                </div>
+                                <div style="padding: 15px; background: rgba(16,185,129,0.15); border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #10b981;">
+                                    <strong>Saída de Fluidos:</strong><br>
+                                    • Diurese: medir cada quantidade (cateter uretral)<br>
+                                    • Perda insensível: ~0.5-1 mL/kg/h típico<br>
+                                    • Hemofiltração: registrar volume removido<br>
+                                    • Drenagem mediastinal: importante pós-weaning
+                                </div>
+                                <div style="padding: 15px; background: rgba(168,75,47,0.15); border-radius: 8px; border-left: 4px solid #a84b2f;">
+                                    <strong>Monitoramento Contínuo:</strong><br>
+                                    • Calcular balanço a cada 30-60 min<br>
+                                    • Ajustar reposição conforme PAM/CVP<br>
+                                    • Considerar hemofiltração se &gt; 2000 mL<br>
+                                    • Comunicar cirurgião de desbalanço significativo
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <div class="card-title">Cálculo Rápido de Perda Insensível</div>
+                    <div class="results-container">
+                        <div class="result-box">
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label>Peso do Paciente (kg)</label>
+                                    <input type="number" id="pesoPerdaInsen" placeholder="70" step="0.1">
+                                </div>
+                                <div class="input-group">
+                                    <label>Tempo de CEC (min)</label>
+                                    <input type="number" id="tempoOperacao" placeholder="90" step="1">
+                                </div>
+                            </div>
+                            <div class="button-group">
+                                <button class="btn btn-primary" onclick="calcularPerdaInsensivel()">Calcular Perda Insensível</button>
+                            </div>
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(20,184,166,0.1); border-radius: 8px;">
+                                <strong>Perda Insensível Estimada:</strong><br>
+                                <span style="font-size: 1.3em; color: var(--secondary); font-weight: bold;" id="resultadoPerdaInsen">-- mL</span><br>
+                                <span style="font-size: 0.9em; color: var(--text-secondary);">Fórmula: 0.5-1 mL/kg/h × tempo em horas</span>
                             </div>
                         </div>
                     </div>
@@ -1105,8 +1698,9 @@
         </div>
 
         <div class="footer">
-            <p>🩸 Calculadora Perfusionista PRO v9.0 | Desenvolvido com ❤️ para perfusionistas</p>
-            <p style="margin-top: 10px; font-size: 0.85em; opacity: 0.7;">⚠️ Ferramenta auxiliar. Sempre confirme com cirurgião e siga protocolos institucionais.</p>
+</parameter>
+            <p>Calculadora Perfusionista PRO v9.1 | Desenvolvido com ❤️ para perfusionistas</p>
+            <p style="margin-top: 10px; font-size: 0.85em; opacity: 0.7;">Ferramenta auxiliar. Sempre confirme com cirurgião e siga protocolos institucionais.</p>
         </div>
     </div>
 
@@ -1118,30 +1712,31 @@
             event.target.classList.add('active');
         }
 
+        // HEMODILUIÇÃO
         function calcularHemodiluicao() {
             const peso = parseFloat(document.getElementById('pesoHemo').value) || 0;
             const htInicial = parseFloat(document.getElementById('htInicial').value) || 0;
             const htFinal = parseFloat(document.getElementById('htFinal').value) || 0;
 
-            if (peso <= 0 || htInicial <= 0 || htFinal <= 0) {
+            if (peso == 0 || htInicial == 0 || htFinal == 0) {
                 alert('Preencha todos os campos');
                 return;
             }
+
             if (htFinal >= htInicial) {
                 alert('Ht final deve ser menor que inicial');
                 return;
             }
 
-            // Fator mL/kg pela TABELA corrigida
             let fatorMlKg;
             if (peso < 10) fatorMlKg = 85;
-            else if (peso >= 10 && peso <= 20) fatorMlKg = 80;
-            else if (peso >= 21 && peso <= 30) fatorMlKg = 75;
-            else if (peso >= 31 && peso <= 40) fatorMlKg = 65;
+            else if (peso < 20) fatorMlKg = 80;
+            else if (peso < 30) fatorMlKg = 75;
+            else if (peso < 40) fatorMlKg = 65;
             else fatorMlKg = 60;
 
             const volumeSanguineo = peso * fatorMlKg;
-            const volumePerfusato = ((htInicial / htFinal) * volumeSanguineo) - volumeSanguineo;
+            const volumePerfusato = ((htInicial - htFinal) / htInicial) * volumeSanguineo;
             const perfusatoPerKg = volumePerfusato / peso;
 
             document.getElementById('pesohemoRes').textContent = peso.toFixed(1) + ' kg';
@@ -1151,42 +1746,57 @@
             document.getElementById('volumePerfusato').textContent = Math.round(volumePerfusato) + ' mL';
             document.getElementById('perfusatoPerKg').textContent = perfusatoPerKg.toFixed(1) + ' mL/kg';
 
-            let faixa = '';
-            if (perfusatoPerKg <= 15) faixa = '🟢 Excelente';
-            else if (perfusatoPerKg <= 20) faixa = '🟡 Bom';
-            else if (perfusatoPerKg <= 25) faixa = '🟠 Moderado';
-            else faixa = '🔴 Alto';
+            let faixa;
+            if (perfusatoPerKg <= 20) faixa = '✓ Seguro (≤20 mL/kg)';
+            else if (perfusatoPerKg <= 25) faixa = '⚠ Moderado (20-25 mL/kg)';
+            else if (perfusatoPerKg <= 30) faixa = '⚠ Elevado (25-30 mL/kg)';
+            else faixa = '❌ Acima do Limite (>30 mL/kg)';
 
             document.getElementById('faixaSeguranca').textContent = faixa;
 
             const statusEl = document.getElementById('statusHemo');
-            if (perfusatoPerKg <= 20) {
-                statusEl.innerHTML = '✓ SEGURO (≤20 mL/kg)';
+            if (perfusatoPerKg <= 30) {
+                statusEl.innerHTML = '✓ SEGURO (≤30 mL/kg)';
                 statusEl.className = 'status-badge ok';
             } else {
-                statusEl.innerHTML = '⚠️ ATENÇÃO (>20 mL/kg)';
+                statusEl.innerHTML = '⚠ ATENÇÃO (>30 mL/kg)';
                 statusEl.className = 'status-badge warning';
             }
         }
 
+        function limparHemo() {
+            document.getElementById('pesoHemo').value = '';
+            document.getElementById('htInicial').value = '';
+            document.getElementById('htFinal').value = '';
+            document.getElementById('pesohemoRes').textContent = '--';
+            document.getElementById('vst').textContent = '--';
+            document.getElementById('htInicialRes').textContent = '--';
+            document.getElementById('htFinalRes').textContent = '--';
+            document.getElementById('volumePerfusato').textContent = '-- mL';
+            document.getElementById('perfusatoPerKg').textContent = '--';
+            document.getElementById('faixaSeguranca').textContent = '--';
+            document.getElementById('statusHemo').innerHTML = '';
+        }
+
+        // FLUXOS
         function calcularFluxos() {
             const peso = parseFloat(document.getElementById('pesoFluxo').value) || 0;
             const altura = parseFloat(document.getElementById('alturaFluxo').value) || 0;
 
-            if (peso <= 0 || altura <= 0) {
+            if (peso == 0 || altura == 0) {
                 alert('Preencha peso e altura');
                 return;
             }
 
             const sc = 0.007184 * Math.pow(altura, 0.725) * Math.pow(peso, 0.425);
-            const fluxoMin = 2.4 * sc;
-            const fluxoMed = 2.6 * sc;
-            const fluxoMax = 3.0 * sc;
+            const fluxoMin = 2.2 * sc;
+            const fluxoMed = 2.4 * sc;
+            const fluxoMax = 2.6 * sc;
 
             document.getElementById('scResult').textContent = sc.toFixed(2) + ' m²';
-            document.getElementById('fluxoMin').textContent = fluxoMin.toFixed(2) + ' L/min (2.4 L/min/m²)';
-            document.getElementById('fluxoMed').textContent = fluxoMed.toFixed(2) + ' L/min (2.6 L/min/m²)';
-            document.getElementById('fluxoMax').textContent = fluxoMax.toFixed(2) + ' L/min (3.0 L/min/m²)';
+            document.getElementById('fluxoMin').textContent = fluxoMin.toFixed(2) + ' L/min (2.2 L/min/m²)';
+            document.getElementById('fluxoMed').textContent = fluxoMed.toFixed(2) + ' L/min (2.4 L/min/m²)';
+            document.getElementById('fluxoMax').textContent = fluxoMax.toFixed(2) + ' L/min (2.6 L/min/m²)';
         }
 
         function limparFluxos() {
@@ -1198,11 +1808,62 @@
             document.getElementById('fluxoMax').textContent = '--';
         }
 
+        // RVS - FÓRMULA CORRIGIDA
+        function calcularRvs() {
+            const pam = parseFloat(document.getElementById('pamRvs').value) || 0;
+            const fluxo = parseFloat(document.getElementById('fluxoRvs').value) || 0;
+
+            if (pam == 0 || fluxo == 0) {
+                alert('Preencha PAM e Fluxo');
+                return;
+            }
+
+            if (fluxo <= 0) {
+                alert('Fluxo deve ser maior que zero');
+                return;
+            }
+
+            // Fórmula: RVS = PAM × 80 / FLUXO (L/min)
+            const rvs = (pam * 80) / fluxo;
+
+            document.getElementById('pamRes').textContent = pam.toFixed(1) + ' mmHg';
+            document.getElementById('rvsValor').textContent = rvs.toFixed(0) + ' dyn·s·cm⁻⁵';
+
+            let faixaRvs;
+            if (rvs < 800) faixaRvs = 'Baixa (Vasodilatação)';
+            else if (rvs <= 1200) faixaRvs = 'Normal';
+            else faixaRvs = 'Elevada (Vasoconstricção)';
+
+            document.getElementById('faixaRvs').textContent = faixaRvs;
+
+            const statusEl = document.getElementById('statusRvs');
+            if (rvs < 800) {
+                statusEl.innerHTML = '⚠ VASODILATAÇÃO SISTÊMICA';
+                statusEl.className = 'status-badge elevated';
+            } else if (rvs > 1200) {
+                statusEl.innerHTML = '⚠ VASOCONSTRICÇÃO SISTÊMICA';
+                statusEl.className = 'status-badge warning';
+            } else {
+                statusEl.innerHTML = '✓ RVS DENTRO DA FAIXA ESPERADA';
+                statusEl.className = 'status-badge ok';
+            }
+        }
+
+        function limparRvs() {
+            document.getElementById('pamRvs').value = '';
+            document.getElementById('fluxoRvs').value = '';
+            document.getElementById('pamRes').textContent = '-- mmHg';
+            document.getElementById('rvsValor').textContent = '-- dyn·s·cm⁻⁵';
+            document.getElementById('faixaRvs').textContent = '--';
+            document.getElementById('statusRvs').innerHTML = '';
+        }
+
+        // FUROSEMIDA
         function calcularFurosemida() {
             const peso = parseFloat(document.getElementById('pesoFuro').value) || 0;
             const apresentacao = parseInt(document.getElementById('apresentacaoFuro').value);
 
-            if (peso <= 0) {
+            if (peso == 0) {
                 alert('Preencha o peso');
                 return;
             }
@@ -1212,14 +1873,15 @@
 
             document.getElementById('doseHabitual').textContent = Math.round(dose) + ' mg';
             document.getElementById('volumeFuro').textContent = volume.toFixed(1) + ' mL';
-            document.getElementById('apresentacaoRes').textContent = apresentacao === 10 ? '10mg/mL' : '20mg/mL';
+            document.getElementById('apresentacaoRes').textContent = apresentacao == 10 ? '10mg/mL' : '20mg/mL';
         }
 
+        // MANITOL
         function calcularManitol() {
             const peso = parseFloat(document.getElementById('pesoManitol').value) || 0;
             const dose = parseFloat(document.getElementById('doseManitol').value) || 0.5;
 
-            if (peso <= 0) {
+            if (peso == 0) {
                 alert('Preencha o peso');
                 return;
             }
@@ -1232,26 +1894,27 @@
             document.getElementById('volumeManitol').textContent = Math.round(volume) + ' mL';
         }
 
+        // ELETRÓLITOS
         function calcularEletrolito() {
             const peso = parseFloat(document.getElementById('pesoEletro').value) || 0;
             const valorAtual = parseFloat(document.getElementById('valorAtual').value) || 0;
             const valorAlvo = parseFloat(document.getElementById('valorAlvo').value) || 0;
             const tipo = document.getElementById('selectEletro').value;
 
-            if (peso <= 0 || valorAtual === 0) {
+            if (peso == 0 || valorAtual == 0) {
                 alert('Preencha todos os campos');
                 return;
             }
 
             const eletrolitos = {
-                calcio: { nome: 'Cálcio Gluconato 10%', conc: 100, fator: 1, diluicao: 'SF 0,9% ou SG5%' },
-                potassio: { nome: 'Potássio (KCl 19.1%)', conc: 191, fator: 0.5, diluicao: 'Máximo 20 mEq/L' },
-                magnesio: { nome: 'Magnésio (MgSO4 50%)', conc: 500, fator: 0.3, diluicao: 'SF 0,9% lentamente' }
+                calcio: { nome: 'Cálcio (Gluconato 10%)', conc: 100, fator: 1, diluicao: 'SF 0,9% ou SG5%' },
+                potassio: { nome: 'Potássio (KCl)', conc: 191, fator: 0.5, diluicao: 'Máximo 20 mEq/L' },
+                magnesio: { nome: 'Magnésio (MgSO₄)', conc: 500, fator: 0.3, diluicao: 'SF 0,9% lentamente' }
             };
 
             const eletro = eletrolitos[tipo];
-            const diferenca = (valorAlvo - valorAtual) * peso * eletro.fator;
-            const volume = Math.abs(diferenca) / eletro.conc;
+            const diferenca = Math.abs(valorAlvo - valorAtual) * peso * eletro.fator;
+            const volume = diferenca / eletro.conc;
 
             document.getElementById('nomeDroga').textContent = eletro.nome;
             document.getElementById('valoresEletro').textContent = valorAtual.toFixed(1) + ' → ' + valorAlvo.toFixed(1);
@@ -1259,6 +1922,7 @@
             document.getElementById('diluicaoEletro').textContent = eletro.diluicao;
         }
 
+        // GASOMETRIA
         function calcularGasometria() {
             const pH = parseFloat(document.getElementById('pH').value) || 7.4;
             const paCO2 = parseFloat(document.getElementById('paCO2').value) || 40;
@@ -1272,30 +1936,18 @@
             const o2ER = saO2 > 0 ? ((saO2 - svO2) / saO2) * 100 : 0;
             const deltaPvCO2 = pvCO2 - paCO2;
 
-            let statusLactato = '';
-            if (lactato < 2) statusLactato = '🟢 Normal';
-            else if (lactato < 4) statusLactato = '🟡 Elevado';
-            else statusLactato = '🔴 Muito Elevado';
+            let statusLactato = lactato <= 2 ? 'Normal' : (lactato <= 4 ? 'Elevado' : 'Muito Elevado');
+            let statusPh = pH < 7.35 ? 'Acidemia' : (pH > 7.45 ? 'Alcalinemia' : 'Normal');
+            let statusHb = hemoglobina < 10 ? 'Anemia Grave' : (hemoglobina < 12 ? 'Anemia Moderada' : (hemoglobina <= 18 ? 'Normal' : 'Policitemia'));
 
-            let statusPh = '';
-            if (pH < 7.35) statusPh = '🔴 Acidemia';
-            else if (pH > 7.45) statusPh = '🟠 Alcalinemia';
-            else statusPh = '🟢 Normal';
-
-            let statusHb = '';
-            if (hemoglobina < 10) statusHb = '🔴 Anemia Grave';
-            else if (hemoglobina < 12) statusHb = '🟡 Anemia Moderada';
-            else if (hemoglobina <= 18) statusHb = '🟢 Normal';
-            else statusHb = '🟠 Policitemia';
-
-            let interpDeltaAO2 = deltaAO2 <= 30 ? '🟢 Perfusão adequada' : '🔴 Possível hipoperfusão';
-            let interpO2ER = o2ER >= 20 && o2ER <= 30 ? '🟢 Normal' : o2ER > 35 ? '🔴 Hipoperfusão' : '🟡 Alterado';
-            let interpDeltaPvCO2 = deltaPvCO2 < 6 ? '🟢 Fluxo adequado' : deltaPvCO2 >= 8 ? '🔴 Hipoperfusão' : '🟡 Alterado';
+            let interpDeltaAO2 = deltaAO2 < 30 ? 'Perfusão adequada' : 'Possível hipoperfusão';
+            let interpO2ER = o2ER < 20 ? 'Normal' : (o2ER < 30 ? 'Normal' : (o2ER < 35 ? 'Hipoperfusão' : 'Hipoperfusão Grave'));
+            let interpDeltaPvCO2 = deltaPvCO2 <= 6 ? 'Fluxo adequado' : (deltaPvCO2 <= 8 ? 'Alterado' : 'Hipoperfusão');
 
             document.getElementById('statusLactato').textContent = statusLactato + ' (' + lactato.toFixed(1) + ')';
             document.getElementById('statusPh').textContent = statusPh + ' (' + pH.toFixed(2) + ')';
             document.getElementById('statusHb').textContent = statusHb + ' (' + hemoglobina.toFixed(1) + ')';
-            document.getElementById('deltaAO2').textContent = deltaAO2.toFixed(1) + ' %';
+            document.getElementById('deltaAO2').textContent = deltaAO2.toFixed(1);
             document.getElementById('o2ER').textContent = o2ER.toFixed(1) + '%';
             document.getElementById('deltaPvCO2').textContent = deltaPvCO2.toFixed(1) + ' mmHg';
 
@@ -1306,12 +1958,12 @@
             const statusGasoEl = document.getElementById('statusGaso');
             let avaliacaoGeral = (lactato > 4 || pH < 7.30 || o2ER > 35 || deltaPvCO2 > 8) ? 'critical' : 
                                  (lactato > 2 || pH < 7.35 || o2ER > 30 || deltaPvCO2 > 6) ? 'elevated' : 'ok';
-            
-            if (avaliacaoGeral === 'critical') {
-                statusGasoEl.innerHTML = '🔴 CRÍTICO - Hipoperfusão significativa';
+
+            if (avaliacaoGeral == 'critical') {
+                statusGasoEl.innerHTML = '❌ CRÍTICO - Hipoperfusão significativa';
                 statusGasoEl.className = 'status-badge critical';
-            } else if (avaliacaoGeral === 'elevated') {
-                statusGasoEl.innerHTML = '🟡 ATENÇÃO - Sinais de hipoperfusão';
+            } else if (avaliacaoGeral == 'elevated') {
+                statusGasoEl.innerHTML = '⚠ ATENÇÃO - Sinais de hipoperfusão';
                 statusGasoEl.className = 'status-badge elevated';
             } else {
                 statusGasoEl.innerHTML = '✓ PERFUSÃO ADEQUADA';
@@ -1319,11 +1971,25 @@
             }
         }
 
+        function limparGaso() {
+            document.getElementById('pesoGaso').value = '';
+            document.getElementById('lactato').value = '';
+            document.getElementById('pH').value = '';
+            document.getElementById('paCO2').value = '';
+            document.getElementById('hemoglobina').value = '';
+            document.getElementById('saO2').value = '';
+            document.getElementById('svO2').value = '';
+            document.getElementById('pvCO2').value = '';
+            document.querySelectorAll('gasometria .analysis-value, gasometria .result-value, gasometria .analysis-item .analysis-value').forEach(el => el.textContent = '--');
+            document.getElementById('statusGaso').innerHTML = '';
+        }
+
+        // BICARBONATO
         function calcularBicarbonato() {
             const peso = parseFloat(document.getElementById('pesoBicarbonato').value) || 0;
             const baseExcess = parseFloat(document.getElementById('baseExcessBicarbonato').value) || 0;
 
-            if (peso <= 0) {
+            if (peso == 0) {
                 alert('Preencha o peso');
                 return;
             }
@@ -1341,7 +2007,7 @@
                 statusEl.innerHTML = '✓ Acidose Detectada - Usar dose calculada';
                 statusEl.className = 'status-badge ok';
             } else {
-                statusEl.innerHTML = '✓ Sem acidose significativa';
+                statusEl.innerHTML = 'Sem acidose significativa';
                 statusEl.className = 'status-badge ok';
             }
         }
@@ -1356,31 +2022,17 @@
             document.getElementById('statusBic').innerHTML = '';
         }
 
-        function limparGaso() {
-            document.getElementById('pesoGaso').value = '';
-            document.getElementById('lactato').value = '';
-            document.getElementById('pH').value = '';
-            document.getElementById('paCO2').value = '';
-            document.getElementById('hemoglobina').value = '';
-            document.getElementById('saO2').value = '';
-            document.getElementById('svO2').value = '';
-            document.getElementById('pvCO2').value = '';
-            
-            document.querySelectorAll('#gasometria .analysis-value, #gasometria .result-value, #gasometria .analysis-item .analysis-value').forEach(el => el.textContent = '--');
-            document.getElementById('statusGaso').innerHTML = '';
-        }
-
+        // CÂNULAS
         function calcularCanulas() {
             const peso = parseFloat(document.getElementById('pesoCanula').value) || 0;
-            const fluxoMedidoStr = document.getElementById('fluxoMedidoCanula').value || '';
+            const fluxoMedidoStr = document.getElementById('fluxoMedidoCanula').value;
             const fluxoMedido = fluxoMedidoStr ? parseFloat(fluxoMedidoStr) : null;
 
-            if (peso <= 0) {
+            if (peso == 0) {
                 alert('Preencha o peso');
                 return;
             }
 
-            // Tabela de cânulas por faixa de peso
             const tabelaPorPeso = [
                 { pesoMax: 5, arterial: '08F - 500 mL', fluxoArterial: 500, vcs: '12F', vci: '12F' },
                 { pesoMax: 15, arterial: '08-10F - 1100 mL', fluxoArterial: 1100, vcs: '12F', vci: '16F' },
@@ -1389,46 +2041,13 @@
                 { pesoMax: Infinity, arterial: '20-22F - 5800 mL', fluxoArterial: 5800, vcs: '34F', vci: '36F' }
             ];
 
-            // Tabela completa de fluxos para calibres
-            const tabelaPorFluxo = [
-                { fluxoMin: 0, fluxoMax: 500, arterial: '08F - 500 mL', fluxoArterial: 500 },
-                { fluxoMin: 501, fluxoMax: 1100, arterial: '08-10F - 1100 mL', fluxoArterial: 1100 },
-                { fluxoMin: 1101, fluxoMax: 2500, arterial: '12-14F - 2500 mL', fluxoArterial: 2500 },
-                { fluxoMin: 2501, fluxoMax: 3800, arterial: '18F - 3800 mL', fluxoArterial: 3800 },
-                { fluxoMin: 3801, fluxoMax: 5800, arterial: '20-22F - 5800 mL', fluxoArterial: 5800 },
-                { fluxoMin: 5801, fluxoMax: Infinity, arterial: '22-24F - 8000+ mL', fluxoArterial: 8000 }
-            ];
+            let categoria = peso < 5 ? 'Pequenos' : (peso < 15 ? 'Pediátricos' : (peso < 40 ? 'Adolescentes' : (peso < 70 ? 'Adultos' : 'Grandes Adultos')));
 
-            let categoria = '';
-            if (peso <= 5) categoria = 'Pequenos';
-            else if (peso <= 15) categoria = 'Pediátricos';
-            else if (peso <= 40) categoria = 'Adolescentes';
-            else if (peso <= 70) categoria = 'Adultos';
-            else categoria = 'Grandes adultos';
-
-            // Obter cânula recomendada por peso
             const canulasPeso = tabelaPorPeso.find(c => peso <= c.pesoMax);
-
             let canulaArterialFinal = canulasPeso.arterial;
             let fluxoArterialFinal = canulasPeso.fluxoArterial;
             let vcsArterialFinal = canulasPeso.vcs;
             let vciArterialFinal = canulasPeso.vci;
-            let observacao = '';
-
-            // Se fluxo foi medido, comparar e recomendar duas se necessário
-            if (fluxoMedido !== null && fluxoMedido > 0) {
-                const canulaFluxo = tabelaPorFluxo.find(c => fluxoMedido >= c.fluxoMin && fluxoMedido <= c.fluxoMax);
-                
-                // Se as recomendações são diferentes, mostrar ambas
-                if (canulaFluxo && canulaFluxo.arterial !== canulasPeso.arterial) {
-                    observacao = '<br>📌 <strong>POR FLUXO:</strong> ' + canulaFluxo.arterial + ' (' + canulaFluxo.fluxoArterial + ' mL/min)';
-                    canulaArterialFinal = canulasPeso.arterial + observacao;
-                } else if (canulaFluxo) {
-                    // Confirmação de que ambas coincidem
-                    observacao = ' ✓ Fluxo e peso concordam';
-                    canulaArterialFinal = canulasPeso.arterial + observacao;
-                }
-            }
 
             document.getElementById('pesoCanRes').textContent = peso.toFixed(1) + ' kg';
             document.getElementById('categoriaCanula').textContent = categoria;
@@ -1438,13 +2057,100 @@
             document.getElementById('canulaVCI').textContent = vciArterialFinal;
         }
 
-        function limparHemo() {
-            document.getElementById('pesoHemo').value = '';
-            document.getElementById('htInicial').value = '';
-            document.getElementById('htFinal').value = '';
-            document.querySelectorAll('#hemodiluicao .result-value').forEach(el => el.textContent = '--');
-            document.getElementById('statusHemo').innerHTML = '';
+        // BALANÇO HÍDRICO
+        function calcularBalancoHidrico() {
+            // ENTRADAS
+            const cristaloidePrimario = parseFloat(document.getElementById('cristaloidePrimario').value) || 0;
+            const hemacias = parseFloat(document.getElementById('hemacias').value) || 0;
+            const pfc = parseFloat(document.getElementById('pfc').value) || 0;
+            const plaquetas = parseFloat(document.getElementById('plaquetas').value) || 0;
+            const albumina = parseFloat(document.getElementById('albumina').value) || 0;
+            const medicacoes = parseFloat(document.getElementById('medicacoes').value) || 0;
+            const outrosEntrada = parseFloat(document.getElementById('outrosEntrada').value) || 0;
+
+            const totalEntrada = cristaloidePrimario + hemacias + pfc + plaquetas + albumina + medicacoes + outrosEntrada;
+
+            // SAÍDAS
+            const diurese = parseFloat(document.getElementById('diurese').value) || 0;
+            const perdaSanguinea = parseFloat(document.getElementById('perdaSanguinea').value) || 0;
+            const drenamemedio = parseFloat(document.getElementById('drenamemedio').value) || 0;
+            const perdalfinsensivel = parseFloat(document.getElementById('perdalfinsensivel').value) || 0;
+            const hemofilt = parseFloat(document.getElementById('hemofilt').value) || 0;
+            const outrosSaida = parseFloat(document.getElementById('outrosSaida').value) || 0;
+
+            const totalSaida = diurese + perdaSanguinea + drenamemedio + perdalfinsensivel + hemofilt + outrosSaida;
+
+            // BALANÇO
+            const balanco = totalEntrada - totalSaida;
+
+            document.getElementById('totalEntrada').textContent = totalEntrada.toFixed(0) + ' mL';
+            document.getElementById('totalSaida').textContent = totalSaida.toFixed(0) + ' mL';
+            document.getElementById('balancoFinal').textContent = (balanco >= 0 ? '+' : '') + balanco.toFixed(0) + ' mL';
+
+            let status, statusClass;
+            if (balanco < 0) {
+                status = '❌ NEGATIVO - Risco de hipotensão!';
+                statusClass = 'critical';
+            } else if (balanco < 500) {
+                status = '⚠ Balanço Baixo - Considerar reposição';
+                statusClass = 'warning';
+            } else if (balanco <= 1500) {
+                status = '✓ BALANÇO SEGURO (500-1500 mL)';
+                statusClass = 'ok';
+            } else if (balanco <= 2000) {
+                status = '⚠ Balanço Moderadamente Elevado';
+                statusClass = 'elevated';
+            } else {
+                status = '❌ BALANÇO EXCESSIVO (>2000 mL) - Considerar hemofiltração!';
+                statusClass = 'critical';
+            }
+
+            document.getElementById('statusBalanco').textContent = status;
+            const statusEl = document.getElementById('statusBalancoAlerta');
+            statusEl.innerHTML = status;
+            statusEl.className = 'status-badge ' + statusClass;
+        }
+
+        function limparBalanco() {
+            document.getElementById('cristaloidePrimario').value = '';
+            document.getElementById('hemacias').value = '0';
+            document.getElementById('pfc').value = '';
+            document.getElementById('plaquetas').value = '';
+            document.getElementById('albumina').value = '';
+            document.getElementById('medicacoes').value = '';
+            document.getElementById('outrosEntrada').value = '';
+            document.getElementById('diurese').value = '';
+            document.getElementById('perdaSanguinea').value = '';
+            document.getElementById('drenamemedio').value = '';
+            document.getElementById('perdalfinsensivel').value = '';
+            document.getElementById('hemofilt').value = '';
+            document.getElementById('outrosSaida').value = '';
+            document.getElementById('totalEntrada').textContent = '-- mL';
+            document.getElementById('totalSaida').textContent = '-- mL';
+            document.getElementById('balancoFinal').textContent = '-- mL';
+            document.getElementById('statusBalanco').textContent = '--';
+            document.getElementById('statusBalancoAlerta').innerHTML = '';
+        }
+
+        function calcularPerdaInsensivel() {
+            const peso = parseFloat(document.getElementById('pesoPerdaInsen').value) || 0;
+            const tempo = parseFloat(document.getElementById('tempoOperacao').value) || 0;
+
+            if (peso == 0 || tempo == 0) {
+                alert('Preencha peso e tempo de operação');
+                return;
+            }
+
+            const tempoHoras = tempo / 60;
+            const perdaMinima = peso * 0.5 * tempoHoras;
+            const perdaMaxima = peso * 1.0 * tempoHoras;
+            const perdaMedia = (perdaMinima + perdaMaxima) / 2;
+
+            document.getElementById('resultadoPerdaInsen').innerHTML = 
+                perdaMinima.toFixed(0) + ' - ' + perdaMaxima.toFixed(0) + ' mL<br>' +
+                '<span style="font-size: 0.9em; opacity: 0.8;">(Média: ' + perdaMedia.toFixed(0) + ' mL)</span>';
         }
     </script>
 </body>
 </html>
+</parameter>
